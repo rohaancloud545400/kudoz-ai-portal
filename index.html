@@ -207,7 +207,401 @@
                 <details open>
                     <summary>📝 Daily Habit & Quest Tracker Form (Direct Auto-Commit)</summary>
                     <div id="form-tracker-wrapper" style="margin-top: 15px;">
-                        <p class='empty-text'>Form file 'tracker.html' not found in forms.</p>
+                        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Quick Sync & Progress Tracker</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #ffffff;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --success: #16a34a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.25rem;
+    }
+
+    .tracker-card {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 640px;
+      border-radius: 18px;
+      padding: 1.75rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .header {
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .header h1 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .header p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .meta-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .field-group label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #334155;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+
+    .input-box {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      background: #f8fafc;
+      color: #0f172a;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .input-box:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .questions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .q-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .q-card label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    .pill-selector {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.4rem;
+    }
+
+    .pill-selector input[type="radio"] {
+      display: none;
+    }
+
+    .pill-selector label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 0.45rem 0.2rem;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .pill-selector input[type="radio"]:checked + label {
+      background: #eff6ff;
+      border-color: var(--primary);
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.6rem;
+      margin-top: 1.25rem;
+      padding-top: 1.2rem;
+      border-top: 2px solid #f1f5f9;
+    }
+
+    .btn {
+      padding: 0.7rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary {
+      grid-column: span 2;
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-sub {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid var(--border);
+    }
+
+    .btn-sub:hover {
+      background: #e2e8f0;
+    }
+
+    .toast {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--text);
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="tracker-card">
+    <div class="header">
+      <h1>⚡ Daily Progress & Discussion Sync</h1>
+      <p>1-minute fast tracker aligned for mentoring review and drive archiving.</p>
+    </div>
+
+    <form id="trackerForm" onsubmit="event.preventDefault();">
+      <div class="meta-row">
+        <div class="field-group">
+          <label for="studentName">Student Name</label>
+          <input type="text" id="studentName" class="input-box" placeholder="Your name..." required />
+        </div>
+        <div class="field-group">
+          <label for="entryDate">Date</label>
+          <input type="date" id="entryDate" class="input-box" required />
+        </div>
+      </div>
+
+      <div class="questions-list">
+        <div class="q-card">
+          <label for="q1">1. Is there any plan configured today?</label>
+          <input type="text" id="q1" class="input-box" placeholder="Today's core target / tasks scheduled..." required />
+        </div>
+
+        <div class="q-card">
+          <label for="q2">2. Is there any plan finalized for tomorrow?</label>
+          <input type="text" id="q2" class="input-box" placeholder="Next priorities ready for tomorrow..." required />
+        </div>
+
+        <div class="q-card">
+          <label>3. Have you completed all the work as per today plan?</label>
+          <div class="pill-selector">
+            <input type="radio" name="q3_status" id="q3_yes" value="Yes (100% Completed)" checked />
+            <label for="q3_yes">🟢 100% Completed</label>
+
+            <input type="radio" name="q3_status" id="q3_partial" value="Partially Completed" />
+            <label for="q3_partial">🟡 In Progress</label>
+
+            <input type="radio" name="q3_status" id="q3_no" value="No (Rescheduled)" />
+            <label for="q3_no">🔴 Rescheduled</label>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <label>4. Have you completed / will you complete overall deadlines?</label>
+          <div class="pill-selector">
+            <input type="radio" name="q4_deadlines" id="q4_ontime" value="On Track (Within Deadlines)" checked />
+            <label for="q4_ontime">🚀 On Schedule</label>
+
+            <input type="radio" name="q4_deadlines" id="q4_risk" value="At Risk of Delay" />
+            <label for="q4_risk">⚠️ Risk of Delay</label>
+
+            <input type="radio" name="q4_deadlines" id="q4_delayed" value="Delayed (Needs Extension)" />
+            <label for="q4_delayed">🚨 Delayed</label>
+          </div>
+        </div>
+
+        <div class="q-card">
+          <label for="q5">5. Have you learnt new thing that outclass, elaborate your answer:</label>
+          <input type="text" id="q5" class="input-box" placeholder="One new tool, skill, concept, or optimization achieved today..." required />
+        </div>
+      </div>
+
+      <div class="actions-grid">
+        <button type="button" class="btn btn-primary" onclick="handleEmail()">
+          ✉️ Send & Email Tracker Report
+        </button>
+        <button type="button" class="btn btn-sub" onclick="handleCSVExport()">
+          📊 Save Log (CSV / Google Sheets)
+        </button>
+        <button type="button" class="btn btn-sub" onclick="handleJSONExport()">
+          💾 Save for Drive (JSON)
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    document.getElementById('entryDate').valueAsDate = new Date();
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+
+    function collectData() {
+      const name = document.getElementById('studentName').value.trim() || 'Student';
+      const date = document.getElementById('entryDate').value;
+      const q1 = document.getElementById('q1').value.trim() || 'None configured';
+      const q2 = document.getElementById('q2').value.trim() || 'None finalized';
+      const q3 = document.querySelector('input[name="q3_status"]:checked').value;
+      const q4 = document.querySelector('input[name="q4_deadlines"]:checked').value;
+      const q5 = document.getElementById('q5').value.trim() || 'Standard work completed';
+
+      return { name, date, q1, q2, q3, q4, q5 };
+    }
+
+    function downloadFile(content, fileName, mimeType) {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function handleEmail() {
+      const d = collectData();
+      const subject = encodeURIComponent(`Daily Sync: ${d.name} [${d.date}]`);
+      const body = encodeURIComponent(
+`DAILY PROGRESS & DISCUSSION TRACKER
+===========================================
+Student: ${d.name}
+Date   : ${d.date}
+
+[1] Plan configured today:
+${d.q1}
+
+[2] Plan finalized for tomorrow:
+${d.q2}
+
+[3] Completed all work as per today's plan:
+${d.q3}
+
+[4] Completed / will complete overall deadlines:
+${d.q4}
+
+[5] Learnt new thing that outclass (Elaboration):
+${d.q5}
+===========================================`
+      );
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+      showToast('Opening default email client...');
+    }
+
+    function handleCSVExport() {
+      const d = collectData();
+      const safeName = d.name.replace(/[^a-zA-Z0-9]/g, '_');
+      const filename = `Tracker_${safeName}_${d.date}.csv`;
+      
+      const headers = "Date,Student Name,Plan Configured Today,Plan Finalized Tomorrow,Plan Completed Today,Overall Deadlines Status,Outclass Learning / Breakthrough\n";
+      const row = `"${d.date}","${d.name}","${d.q1.replace(/"/g, '""')}","${d.q2.replace(/"/g, '""')}","${d.q3}","${d.q4}","${d.q5.replace(/"/g, '""')}"\n`;
+
+      downloadFile(headers + row, filename, 'text/csv;charset=utf-8;');
+      showToast('CSV ready! Import or upload directly to Google Sheets.');
+    }
+
+    function handleJSONExport() {
+      const d = collectData();
+      const safeName = d.name.replace(/[^a-zA-Z0-9]/g, '_');
+      const filename = `Tracker_${safeName}_${d.date}.json`;
+      
+      const payload = {
+        meta: {
+          student_name: d.name,
+          submission_date: d.date,
+          created_at: new Date().toISOString()
+        },
+        responses: {
+          plan_configured_today: d.q1,
+          plan_finalized_for_tomorrow: d.q2,
+          work_completed_as_per_today_plan: d.q3,
+          overall_deadlines_status: d.q4,
+          outclass_learning_elaborated: d.q5
+        }
+      };
+
+      downloadFile(JSON.stringify(payload, null, 2), filename, 'application/json');
+      showToast('JSON saved! Upload to Google Drive for data analysis.');
+    }
+  </script>
+</body>
+</html>
                     </div>
                 </details>
             </div>
@@ -311,7 +705,267 @@
                 <details open>
                     <summary>📚 Academic Test Progress Form (Direct Auto-Commit)</summary>
                     <div id="form-academic-wrapper" style="margin-top: 15px;">
-                        <p class='empty-text'>Form file 'Academic_progress.html' not found in forms.</p>
+                        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kudoz AI - Multi-Subject Test Score Logger</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f4f8;
+      padding: 24px;
+      color: #1e293b;
+    }
+    .card {
+      max-width: 900px;
+      margin: auto;
+      background: #ffffff;
+      padding: 28px;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    h2 {
+      margin-top: 0;
+      color: #1d4ed8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-bar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    .header-bar label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .header-bar input {
+      padding: 8px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      background: #f8fafc;
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-size: 13px;
+    }
+    .btn-add {
+      background: #10b981;
+      color: white;
+      padding: 9px 16px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 13px;
+      margin-top: 14px;
+    }
+    .btn-add:hover { background: #059669; }
+    .btn-delete {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .btn-delete:hover { background: #dc2626; }
+    .btn-submit {
+      width: 100%;
+      margin-top: 24px;
+      padding: 14px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-submit:hover { background: #1d4ed8; }
+    .counter {
+      font-size: 13px;
+      color: #64748b;
+      font-weight: normal;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>
+      <span>📝 Academic & Practice Test Entries</span>
+      <span class="counter" id="recordCounter">1 / 50 Records</span>
+    </h2>
+
+    <div class="header-bar">
+      <label for="submissionDate">Entry Date:</label>
+      <input type="date" id="submissionDate" required>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 25%;">Category / Institution</th>
+          <th style="width: 30%;">Subject</th>
+          <th style="width: 18%;">Obtained Marks</th>
+          <th style="width: 18%;">Total Marks</th>
+          <th style="width: 9%; text-align: center;">Action</th>
+        </tr>
+      </thead>
+      <tbody id="testTableBody">
+        <!-- Rows dynamically injected here -->
+      </tbody>
+    </table>
+
+    <button type="button" class="btn-add" onclick="addRow()">+ Add Subject Record</button>
+    <button type="button" class="btn-submit" onclick="exportJSON()">Export Tests JSON to /feedbacks</button>
+  </div>
+
+  <script>
+    const MAX_RECORDS = 50;
+    const tableBody = document.getElementById('testTableBody');
+    const dateInput = document.getElementById('submissionDate');
+    const recordCounter = document.getElementById('recordCounter');
+
+    // Default to today's date
+    dateInput.valueAsDate = new Date();
+
+    function updateCounter() {
+      const rowCount = tableBody.rows.length;
+      recordCounter.textContent = `${rowCount} / ${MAX_RECORDS} Records`;
+    }
+
+    function addRow() {
+      const currentRows = tableBody.rows.length;
+      if (currentRows >= MAX_RECORDS) {
+        alert("Maximum limit of 50 test records reached.");
+        return;
+      }
+
+      const row = tableBody.insertRow();
+      row.innerHTML = `
+        <td>
+          <select class="category-input">
+            <option value="School">School Exam / Quiz</option>
+            <option value="Academy">Academy / Coaching Test</option>
+            <option value="Home">Home Practice Test</option>
+          </select>
+        </td>
+        <td>
+          <input type="text" class="subject-input" placeholder="e.g. Mathematics" required>
+        </td>
+        <td>
+          <input type="number" class="obtained-input" step="0.5" min="0" placeholder="e.g. 45" required>
+        </td>
+        <td>
+          <input type="number" class="total-input" step="0.5" min="0.5" placeholder="e.g. 50" required>
+        </td>
+        <td style="text-align: center;">
+          <button type="button" class="btn-delete" onclick="removeRow(this)">✕</button>
+        </td>
+      `;
+      updateCounter();
+    }
+
+    function removeRow(btn) {
+      if (tableBody.rows.length <= 1) {
+        alert("At least one test entry is required.");
+        return;
+      }
+      btn.closest('tr').remove();
+      updateCounter();
+    }
+
+    function exportJSON() {
+      const rows = tableBody.rows;
+      if (rows.length === 0) {
+        alert("Please add at least one test record.");
+        return;
+      }
+
+      const entryDate = dateInput.value;
+      if (!entryDate) {
+        alert("Please select a valid date.");
+        return;
+      }
+
+      const testsList = [];
+
+      for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        const category = row.querySelector('.category-input').value;
+        const subject = row.querySelector('.subject-input').value.trim();
+        const obtained = parseFloat(row.querySelector('.obtained-input').value);
+        const total = parseFloat(row.querySelector('.total-input').value);
+
+        if (!subject) {
+          alert(`Row ${i + 1}: Subject cannot be empty.`);
+          return;
+        }
+        if (isNaN(obtained) || isNaN(total) || total <= 0 || obtained > total) {
+          alert(`Row ${i + 1}: Please enter valid obtained marks and total marks (Obtained <= Total).`);
+          return;
+        }
+
+        const percentage = ((obtained / total) * 100).toFixed(1);
+
+        testsList.push({
+          category: category,
+          subject: subject,
+          obtained_marks: obtained,
+          total_marks: total,
+          percentage: parseFloat(percentage)
+        });
+      }
+
+      const payload = {
+        type: "academic_tests_batch",
+        date: entryDate,
+        total_tests_logged: testsList.length,
+        tests: testsList
+      };
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `academic_tests_${entryDate}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    // Initialize with 1 default row
+    addRow();
+  </script>
+</body>
+</html>
                     </div>
                 </details>
             </div>
@@ -320,7 +974,69 @@
                 <details>
                     <summary>👨‍👩‍👦 Weekly Parental Feedback Form (Direct Auto-Commit)</summary>
                     <div id="form-parents-wrapper" style="margin-top: 15px;">
-                        <p class='empty-text'>Form file 'parents_feedback.html' not found in forms.</p>
+                        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kudoz AI - Weekly Parent Feedback</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fdf2f8; padding: 24px; color: #1e293b; }
+    .card { max-width: 580px; margin: auto; background: white; padding: 28px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    h2 { margin-top: 0; color: #be185d; }
+    label { display: block; font-weight: 600; font-size: 13px; margin-top: 14px; margin-bottom: 4px; }
+    input, select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+    textarea { resize: vertical; height: 70px; }
+    button { width: 100%; margin-top: 20px; padding: 12px; background: #db2777; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+    button:hover { background: #be185d; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>👨‍👩‍👦 Weekly Parental Feedback</h2>
+    <label>Review Date (Saturday):</label>
+    <input type="date" id="date" required>
+
+    <label>Mother's Discipline & Attitude Rating (1-10):</label>
+    <input type="number" id="mother_score" min="1" max="10" placeholder="Score / 10" required>
+    <label>Mother's Observations & Notes:</label>
+    <textarea id="mother_notes" placeholder="e.g. Completed Quran study on time, but stayed up late once."></textarea>
+
+    <label>Father's Focus & Routine Rating (1-10):</label>
+    <input type="number" id="father_score" min="1" max="10" placeholder="Score / 10" required>
+    <label>Father's Observations & Notes:</label>
+    <textarea id="father_notes" placeholder="e.g. Solved weekly Math problems without reminders. Very respectful."></textarea>
+
+    <button onclick="saveFeedback()">Export Weekly Parent Feedback JSON</button>
+  </div>
+
+  <script>
+    document.getElementById('date').valueAsDate = new Date();
+
+    function saveFeedback() {
+      const payload = {
+        type: "weekly_parent_feedback",
+        date: document.getElementById('date').value,
+        mother_evaluation: {
+          score_out_of_10: parseFloat(document.getElementById('mother_score').value),
+          notes: document.getElementById('mother_notes').value
+        },
+        father_evaluation: {
+          score_out_of_10: parseFloat(document.getElementById('father_score').value),
+          notes: document.getElementById('father_notes').value
+        }
+      };
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `parent_feedback_${payload.date}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+  </script>
+</body>
+</html>
                     </div>
                 </details>
             </div>
@@ -498,8 +1214,8 @@
     };
 
     const ENC_TOKENS = {
-        student: "2ede5abaa8ace7f6369a88f39577e25e072f3e5d46d05fbce1372e5514c92ff752ad113132cd388ff52a84b288cb144aebb3b281eccb14eeea6e66db68e511cbb32323e267dc84e39c4057695400d799e81d941265f9dac5e01012a57f7948e90919a1e17450815a7aa34b5cc29e7f42",
-        parent: "8a9ae874acbafddd034f1536cb668120463aad21390e6d459b9d63b32710c434752373e5433d96a089e58a566a14ef85ae5b9f56d4f1f978ae66cc29aa19ab52520cf87e4284646f121ca9707124a107865cc333af48cd4302b1112e3ca22b9a766725d8107d37aa2c64710671fe8667"
+        student: "bba31b4106ce614c2f96dd85b246da6fa89fd8092a5663883f6639eda0b957ce544963d6cbfeb515ff20d4b72e1b54793b7f36ff73376e91766b9e9a4e62029edd77563e99d8157af667fbd8cb396d6cceb9dadc5d86fe1ca48bb85c5ede238d6d5bf17900d09ca7e463be92cee47b18",
+        parent: "1b9225a61cb4f161a51d687b4e9df7a63877d563324154e9d930092ea30ea7dae1d37f8f132783f505d0d7d51581891a1a58b38ff1b1eb0c466152a2f6f51dea7f11ece68e0070ab98573fcf284968020c3c19ff78d38a5bcc05731cb017b36a1c07142a882b976639815c6ffd3f0ef0"
     };
 
     const CRYPTO_KEYS = {
