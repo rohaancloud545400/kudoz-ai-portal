@@ -808,69 +808,117 @@
                 <details>
                     <summary>👨‍👩‍👦 Weekly Parental Feedback Form (Direct Auto-Commit)</summary>
                     <div id="form-parents-wrapper" style="margin-top: 15px;">
-                        <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Kudoz AI - Weekly Parent Feedback</title>
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #fdf2f8; padding: 24px; color: #1e293b; }
-    .card { max-width: 580px; margin: auto; background: white; padding: 28px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-    h2 { margin-top: 0; color: #be185d; }
-    label { display: block; font-weight: 600; font-size: 13px; margin-top: 14px; margin-bottom: 4px; }
-    input, select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
-    textarea { resize: vertical; height: 70px; }
-    button { width: 100%; margin-top: 20px; padding: 12px; background: #db2777; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
-    button:hover { background: #be185d; }
-  </style>
-</head>
-<body>
-  <div class="card">
-    <h2>👨‍👩‍👦 Weekly Parental Feedback</h2>
+                        <!-- Kudoz AI Weekly Parent Feedback Component -->
+<style>
+  .kudoz-parent-feedback-container {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-sizing: border-box;
+    color: #1e293b;
+  }
+  .kudoz-parent-feedback-container h2 {
+    margin-top: 0;
+    color: #be185d;
+    font-size: 1.2rem;
+  }
+  .kudoz-parent-feedback-container label {
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+    margin-top: 12px;
+    margin-bottom: 4px;
+  }
+  .kudoz-parent-feedback-container input,
+  .kudoz-parent-feedback-container textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 13px;
+  }
+  .kudoz-parent-feedback-container textarea {
+    resize: vertical;
+    height: 64px;
+  }
+  .kudoz-parent-feedback-container .btn-submit-action {
+    width: 100%;
+    margin-top: 18px;
+    padding: 12px;
+    background: #db2777;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .kudoz-parent-feedback-container .btn-submit-action:hover {
+    background: #be185d;
+  }
+</style>
+
+<div class="kudoz-parent-feedback-container">
+  <h2>👨‍👩‍👦 Weekly Parental Feedback</h2>
+  <form id="parentFeedbackForm" onsubmit="event.preventDefault(); submitParentFeedback();">
     <label>Review Date (Saturday):</label>
-    <input type="date" id="date" required>
+    <input type="date" id="parentReviewDate" required>
 
     <label>Mother's Discipline & Attitude Rating (1-10):</label>
-    <input type="number" id="mother_score" min="1" max="10" placeholder="Score / 10" required>
+    <input type="number" id="motherScore" min="1" max="10" placeholder="Score / 10" required>
     <label>Mother's Observations & Notes:</label>
-    <textarea id="mother_notes" placeholder="e.g. Completed Quran study on time, but stayed up late once."></textarea>
+    <textarea id="motherNotes" placeholder="e.g. Completed daily studies on time, respectful attitude."></textarea>
 
     <label>Father's Focus & Routine Rating (1-10):</label>
-    <input type="number" id="father_score" min="1" max="10" placeholder="Score / 10" required>
+    <input type="number" id="fatherScore" min="1" max="10" placeholder="Score / 10" required>
     <label>Father's Observations & Notes:</label>
-    <textarea id="father_notes" placeholder="e.g. Solved weekly Math problems without reminders. Very respectful."></textarea>
+    <textarea id="fatherNotes" placeholder="e.g. Practiced problem sets without reminders. Great routine."></textarea>
 
-    <button onclick="saveFeedback()">Export Weekly Parent Feedback JSON</button>
-  </div>
+    <button type="submit" class="btn-submit-action">
+      💾 Submit Parent Feedback (Auto-Commit to Repo & Local Download)
+    </button>
+  </form>
+</div>
 
-  <script>
-    document.getElementById('date').valueAsDate = new Date();
+<script>
+  (function() {
+    const dInput = document.getElementById('parentReviewDate');
+    if (dInput) dInput.valueAsDate = new Date();
+  })();
 
-    function saveFeedback() {
-      const payload = {
-        type: "weekly_parent_feedback",
-        date: document.getElementById('date').value,
-        mother_evaluation: {
-          score_out_of_10: parseFloat(document.getElementById('mother_score').value),
-          notes: document.getElementById('mother_notes').value
-        },
-        father_evaluation: {
-          score_out_of_10: parseFloat(document.getElementById('father_score').value),
-          notes: document.getElementById('father_notes').value
-        }
-      };
+  function submitParentFeedback() {
+    const dateVal = document.getElementById('parentReviewDate').value;
+    const mScore = parseFloat(document.getElementById('motherScore').value);
+    const fScore = parseFloat(document.getElementById('fatherScore').value);
 
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `parent_feedback_${payload.date}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
+    if (isNaN(mScore) || isNaN(fScore)) {
+      alert("Please provide both Mother and Father ratings out of 10.");
+      return;
     }
-  </script>
-</body>
-</html>
+
+    const payload = {
+      type: "weekly_parent_feedback",
+      date: dateVal,
+      mother_evaluation: {
+        score_out_of_10: mScore,
+        notes: document.getElementById('motherNotes').value.trim()
+      },
+      father_evaluation: {
+        score_out_of_10: fScore,
+        notes: document.getElementById('fatherNotes').value.trim()
+      }
+    };
+
+    if (window.submitFeedbackJson) {
+      window.submitFeedbackJson("parent_feedback", payload, "parent");
+    } else {
+      alert("Submission handler not found. Please log in.");
+    }
+  }
+</script>
+
                     </div>
                 </details>
             </div>
@@ -1048,8 +1096,8 @@
     };
 
     const ENC_TOKENS = {
-        student: "4e98b02719317b3afed6787d3530494d8afd31a5c94efad98a3af2389ffc94f4311b8ba4ae3a2999e79ca07e901d26230a524a1a1d005692c3388e29abaa095ce26271c292247dab2044f99aaa0fe14fad0636580c64bd5ff30eeac1fcf248ee334aaae4ddf362533b96b57f5e90a924",
-        parent: "0f1e6a5703b5d0779f3cb9a5940ca7e43f59b13ef5e4b2095c562d9a7270d550100d596d68ddea46242edd8ccaab9070aa07d36371daf4c3be61793f93fee3534c0d2293b6c414fac374084ae2b263b9bb6b7eb2a06955831938b07575634926a1d04380af4523e9f7c47d494e7fffa6"
+        student: "790f72ede743b4b52e9d38831c5415c0f303aee54b27d032a7dd495ee2de23869dac9182f4a6a87a8cbf4774e3f77b802e84e87da2363f88becb4b8c084b5a350333442b8b88e12ac9d9a72a6df4678fc3c5789f093af638363c01dc412c32fcc47b8eeb1bc41c8884deb7841c0c80c3",
+        parent: "ad48e2deb9fd0be74dc9bfbc47d11a872cbe8079fd21e0359e5bd92ad99966643b4450cc0c08c79551fdbf302a154792e5d3d2b1f5945b8e626a0d11e264e2d6ed42db9ab9f0a7dd3ed2f1ffe9940a98b020406a8091ee3e50208119f0c5bdb10d6ec41eae9960b26c518d048fd6f620"
     };
 
     const CRYPTO_KEYS = {
