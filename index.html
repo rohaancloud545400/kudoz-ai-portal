@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kudoz AI Portal</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #18202c;
+            color: white;
+            padding: 24px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 { margin: 0; font-size: 22px; }
+        header span { color: #38bdf8; font-size: 14px; font-weight: 600; }
+        .nav-tabs {
+            display: flex;
+            background: #ffffff;
+            border-bottom: 2px solid var(--border);
+            padding: 0 32px;
+        }
+        .tab-btn {
+            padding: 16px 24px;
+            border: none;
+            background: none;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        .container {
+            max-width: 1100px;
+            margin: 32px auto;
+            padding: 0 24px;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+        .card-date { font-size: 12px; font-weight: bold; color: var(--primary); text-transform: uppercase; }
+        .card-title { font-size: 14px; font-weight: 600; margin: 8px 0 16px 0; word-break: break-all; }
+        .card-actions { display: flex; gap: 8px; }
+        .btn {
+            flex: 1;
+            text-align: center;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .btn-view { background: var(--primary); color: white; }
+        .btn-view:hover { background: var(--primary-dark); }
+        .btn-download { background: #f1f5f9; color: var(--text-dark); border: 1px solid var(--border); }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+        .table th, .table td { padding: 12px 16px; border-bottom: 1px solid var(--border); text-align: left; font-size: 14px; }
+        .table th { background: #f1f5f9; font-weight: 600; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .badge-success { background: #dcfce7; color: #15803d; }
+        .badge-danger { background: #fee2e2; color: #b91c1c; }
+        .badge-neutral { background: #f1f5f9; color: #64748b; }
+        .empty-text { color: var(--text-light); font-style: italic; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🛡️ Kudoz AI Portal</h1>
+    <span>Student: Muhammad Rohaan</span>
+</header>
+
+<div class="nav-tabs">
+    <button class="tab-btn active" onclick="switchTab('student')">🎮 Student Portal</button>
+    <button class="tab-btn" onclick="switchTab('parent')">👨‍👩‍👦 Parent Portal</button>
+    <button class="tab-btn" onclick="switchTab('rewards')">🏆 Weekly Certificates</button>
+    <button class="tab-btn" onclick="switchTab('admin')">⚙️ Administrator Logs</button>
+</div>
+
+<div class="container">
+    <!-- Student Tab -->
+    <div id="student" class="tab-content active">
+        <h2>🎮 Daily Quests & Screen Time Summaries</h2>
+        <p>Your daily productivity quests and level-up badges for today and the trailing 7 days:</p>
+        <div class="report-grid">
+            <div class="card">
+                <div class="card-date">Wednesday, September 02, 2026</div>
+                <div class="card-title">Summary_For_Kids_2026-09-02.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Summary_For_Kids_2026-09-02.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Summary_For_Kids_2026-09-02.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-date">Tuesday, September 01, 2026</div>
+                <div class="card-title">Summary_For_Kids_2026-09-01.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Summary_For_Kids_2026-09-01.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Summary_For_Kids_2026-09-01.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-date">Monday, August 31, 2026</div>
+                <div class="card-title">Summary_For_Kids_2026-08-31.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Summary_For_Kids_2026-08-31.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Summary_For_Kids_2026-08-31.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-date">Saturday, August 29, 2026</div>
+                <div class="card-title">Summary_For_Kids_2026-08-29.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Summary_For_Kids_2026-08-29.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Summary_For_Kids_2026-08-29.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-date">Friday, August 28, 2026</div>
+                <div class="card-title">Summary_For_Kids_2026-08-28.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Summary_For_Kids_2026-08-28.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Summary_For_Kids_2026-08-28.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-date">Thursday, August 27, 2026</div>
+                <div class="card-title">Summary_For_Kids_2026-08-27.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Summary_For_Kids_2026-08-27.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Summary_For_Kids_2026-08-27.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            </div>
+    </div>
+
+    <!-- Parent Tab -->
+    <div id="parent" class="tab-content">
+        <h2>📊 Executive Productivity Reports</h2>
+        <p>Application breakdowns, context-switching anomalies, and longitudinal trends:</p>
+        <div class="report-grid">
+            <div class="card">
+                <div class="card-date">Wednesday, September 02, 2026</div>
+                <div class="card-title">Productivity_Report_2026-09-02.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Productivity_Report_2026-09-02.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Productivity_Report_2026-09-02.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-date">Tuesday, September 01, 2026</div>
+                <div class="card-title">Productivity_Report_2026-09-01.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Productivity_Report_2026-09-01.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Productivity_Report_2026-09-01.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-date">Monday, August 31, 2026</div>
+                <div class="card-title">Productivity_Report_2026-08-31.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Productivity_Report_2026-08-31.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Productivity_Report_2026-08-31.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-date">Saturday, August 29, 2026</div>
+                <div class="card-title">Productivity_Report_2026-08-29.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Productivity_Report_2026-08-29.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Productivity_Report_2026-08-29.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-date">Friday, August 28, 2026</div>
+                <div class="card-title">Productivity_Report_2026-08-28.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Productivity_Report_2026-08-28.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Productivity_Report_2026-08-28.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            </div>
+    </div>
+
+    <!-- Weekly Certificates Tab -->
+    <div id="rewards" class="tab-content">
+        <h2>🏆 Weekly Reward Reports & Certificates</h2>
+        <p>4-Pillar composite audits and official Saturday Reward Certificates:</p>
+        <div class="report-grid">
+            <div class="card">
+                <div class="card-date">Thursday, September 03, 2026</div>
+                <div class="card-title">Weekly_Reward_Report_V2_2026-09-03.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Weekly_Reward_Report_V2_2026-09-03.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Weekly_Reward_Report_V2_2026-09-03.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-date">Monday, August 31, 2026</div>
+                <div class="card-title">Weekly_Reward_Report_V2_2026-08-31.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Weekly_Reward_Report_V2_2026-08-31.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Weekly_Reward_Report_V2_2026-08-31.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            </div>
+    </div>
+
+    <!-- Admin Tab -->
+    <div id="admin" class="tab-content">
+        <h2>⚙️ 7-Day Pipeline Health Audit</h2>
+        <p>Automated verification of daily reports and parent/academic feedback submissions:</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Kid Quest PDF</th>
+                    <th>Executive PDF</th>
+                    <th>Feedback Logs</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+        <tr>
+            <td><b>2026-09-03</b> (Thursday)</td>
+            <td><span class="badge badge-danger">Missing</span></td>
+            <td><span class="badge badge-danger">Missing</span></td>
+            <td><span class="badge badge-neutral">None</span></td>
+        </tr>
+        
+        <tr>
+            <td><b>2026-09-02</b> (Wednesday)</td>
+            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">Logged</span></td>
+        </tr>
+        
+        <tr>
+            <td><b>2026-09-01</b> (Tuesday)</td>
+            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">Logged</span></td>
+        </tr>
+        
+        <tr>
+            <td><b>2026-08-31</b> (Monday)</td>
+            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">Logged</span></td>
+        </tr>
+        
+        <tr>
+            <td><b>2026-08-30</b> (Sunday)</td>
+            <td><span class="badge badge-danger">Missing</span></td>
+            <td><span class="badge badge-danger">Missing</span></td>
+            <td><span class="badge badge-success">Logged</span></td>
+        </tr>
+        
+        <tr>
+            <td><b>2026-08-29</b> (Saturday)</td>
+            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">Logged</span></td>
+        </tr>
+        
+        <tr>
+            <td><b>2026-08-28</b> (Friday)</td>
+            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">Logged</span></td>
+        </tr>
+        
+        <tr>
+            <td><b>2026-08-27</b> (Thursday)</td>
+            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-danger">Missing</span></td>
+            <td><span class="badge badge-success">Logged</span></td>
+        </tr>
+        
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.target.classList.add('active');
+    }
+</script>
+</body>
+</html>
