@@ -103,6 +103,50 @@
         .badge-danger { background: #fee2e2; color: #b91c1c; }
         .badge-neutral { background: #f1f5f9; color: #64748b; }
         .empty-text { color: var(--text-light); font-style: italic; }
+        
+        /* Auth Gate Styles */
+        .auth-box {
+            max-width: 420px;
+            margin: 40px auto;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+        }
+        .auth-box input {
+            width: 85%;
+            padding: 10px 12px;
+            margin: 14px 0;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .auth-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .auth-btn:hover { background: var(--primary-dark); }
+        .logout-btn {
+            background: #f1f5f9;
+            color: #b91c1c;
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            float: right;
+            margin-top: -30px;
+        }
+        .error-msg { color: #dc2626; font-size: 13px; margin-top: 8px; display: none; }
     </style>
 </head>
 <body>
@@ -113,16 +157,17 @@
 </header>
 
 <div class="nav-tabs">
-    <button class="tab-btn active" onclick="switchTab(event, 'student')">🎮 Student Portal</button>
-    <button class="tab-btn" onclick="switchTab(event, 'parent')">👨‍👩‍👦 Parent Portal</button>
-    <button class="tab-btn" onclick="switchTab(event, 'rewards')">🏆 Weekly Certificates</button>
-    <button class="tab-btn" onclick="switchTab(event, 'admin')">⚙️ Administrator Logs</button>
+    <button class="tab-btn active" onclick="switchTab(event, 'student')">🎮 Student Portal (Open)</button>
+    <button class="tab-btn" onclick="switchTab(event, 'rewards')">🏆 Weekly Certificates (Open)</button>
+    <button class="tab-btn" onclick="switchTab(event, 'parent')">🔒 Parent Portal</button>
+    <button class="tab-btn" onclick="switchTab(event, 'admin')">🔒 Administrator Logs</button>
 </div>
 
 <div class="container">
+    <!-- 1. Student Portal (Public to Student) -->
     <div id="student" class="tab-content active">
         <h2>🎮 Daily Quests & Screen Time Summaries</h2>
-        <p>Today's quest and the trailing 7 days of daily challenges:</p>
+        <p>Your daily screen-time summaries, quest challenges, and focus scores for today and previous 7 days:</p>
         <div class="report-grid">
             <div class="card">
                 <div class="card-date">Wednesday, September 02, 2026</div>
@@ -180,10 +225,47 @@
             </div>
     </div>
 
-    <div id="parent" class="tab-content">
-        <h2>📊 Executive Productivity Reports</h2>
-        <p>Detailed application usage, distraction anomalies, and habit trends:</p>
+    <!-- 2. Weekly Reward Certificates (Open for Student & Parents) -->
+    <div id="rewards" class="tab-content">
+        <h2>🏆 Weekly Reward Reports & Certificates</h2>
+        <p>Holistic 4-pillar evaluation reports and earned Saturday Reward Certificates:</p>
         <div class="report-grid">
+            <div class="card">
+                <div class="card-date">Thursday, September 03, 2026</div>
+                <div class="card-title">Weekly_Reward_Report_V2_2026-09-03.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Weekly_Reward_Report_V2_2026-09-03.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Weekly_Reward_Report_V2_2026-09-03.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-date">Monday, August 31, 2026</div>
+                <div class="card-title">Weekly_Reward_Report_V2_2026-08-31.pdf</div>
+                <div class="card-actions">
+                    <a href="reports/Weekly_Reward_Report_V2_2026-08-31.pdf" target="_blank" class="btn btn-view">View PDF</a>
+                    <a href="reports/Weekly_Reward_Report_V2_2026-08-31.pdf" download class="btn btn-download">Download</a>
+                </div>
+            </div>
+            </div>
+    </div>
+
+    <!-- 3. Parent Portal (Password Protected) -->
+    <div id="parent" class="tab-content">
+        <div id="parent-auth" class="auth-box">
+            <h3>🔒 Parent Portal Access</h3>
+            <p style="font-size: 13px; color: var(--text-light);">Enter the parent access password to view executive productivity reports:</p>
+            <input type="password" id="parent-password" placeholder="Enter Parent Password" onkeydown="if(event.key==='Enter') verifyAccess('parent')">
+            <br/>
+            <button class="auth-btn" onclick="verifyAccess('parent')">Unlock Dashboard</button>
+            <div id="parent-error" class="error-msg">Incorrect password. Please try again.</div>
+        </div>
+
+        <div id="parent-data" style="display:none;">
+            <button class="logout-btn" onclick="lockAccess('parent')">🔒 Lock Section</button>
+            <h2>📊 Executive Productivity Reports</h2>
+            <p>Detailed application usage metrics, context-switching anomalies, and habit trends:</p>
+            <div class="report-grid">
             <div class="card">
                 <div class="card-date">Wednesday, September 02, 2026</div>
                 <div class="card-title">Productivity_Report_2026-09-02.pdf</div>
@@ -229,46 +311,35 @@
                 </div>
             </div>
             </div>
+        </div>
     </div>
 
-    <div id="rewards" class="tab-content">
-        <h2>🏆 Weekly Reward Reports & Certificates</h2>
-        <p>Official 4-Pillar composite audits and earned Saturday certificates:</p>
-        <div class="report-grid">
-            <div class="card">
-                <div class="card-date">Thursday, September 03, 2026</div>
-                <div class="card-title">Weekly_Reward_Report_V2_2026-09-03.pdf</div>
-                <div class="card-actions">
-                    <a href="reports/Weekly_Reward_Report_V2_2026-09-03.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Weekly_Reward_Report_V2_2026-09-03.pdf" download class="btn btn-download">Download</a>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-date">Monday, August 31, 2026</div>
-                <div class="card-title">Weekly_Reward_Report_V2_2026-08-31.pdf</div>
-                <div class="card-actions">
-                    <a href="reports/Weekly_Reward_Report_V2_2026-08-31.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Weekly_Reward_Report_V2_2026-08-31.pdf" download class="btn btn-download">Download</a>
-                </div>
-            </div>
-            </div>
-    </div>
-
+    <!-- 4. Administrator Logs (Password Protected) -->
     <div id="admin" class="tab-content">
-        <h2>⚙️ 7-Day Pipeline Health Audit</h2>
-        <p>Verification matrix of daily reports and submitted logs:</p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Kid Quest PDF</th>
-                    <th>Executive PDF</th>
-                    <th>Feedback Logs</th>
-                </tr>
-            </thead>
-            <tbody>
-                
+        <div id="admin-auth" class="auth-box">
+            <h3>🔒 Administrator Console</h3>
+            <p style="font-size: 13px; color: var(--text-light);">Enter the administrator password to view job health and run logs:</p>
+            <input type="password" id="admin-password" placeholder="Enter Admin Password" onkeydown="if(event.key==='Enter') verifyAccess('admin')">
+            <br/>
+            <button class="auth-btn" onclick="verifyAccess('admin')">Unlock Admin Audit</button>
+            <div id="admin-error" class="error-msg">Incorrect password. Please try again.</div>
+        </div>
+
+        <div id="admin-data" style="display:none;">
+            <button class="logout-btn" onclick="lockAccess('admin')">🔒 Lock Section</button>
+            <h2>⚙️ 7-Day Pipeline Health Audit</h2>
+            <p>Verification matrix of daily reports and submitted logs:</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Kid Quest PDF</th>
+                        <th>Executive PDF</th>
+                        <th>Feedback Logs</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
         <tr>
             <td><b>2026-09-03</b> (Thursday)</td>
             <td><span class="badge badge-danger">Missing</span></td>
@@ -325,18 +396,72 @@
             <td><span class="badge badge-success">Logged</span></td>
         </tr>
         
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
 <script>
+    // SHA-256 Hashes injected at build time
+    const HASHES = {
+        parent: "82e3edf5f5f3a46b5f94579b61817fd9a1f356adcef5ee22da3b96ef775c4860",
+        admin: "240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9"
+    };
+
+    async function computeSHA256(text) {
+        const buffer = new TextEncoder().encode(text.trim());
+        const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
     function switchTab(evt, tabId) {
         document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         evt.currentTarget.classList.add('active');
+
+        // Check active session status on tab switch
+        if (tabId === 'parent' && sessionStorage.getItem('kudoz_auth_parent') === 'true') {
+            showProtected('parent');
+        }
+        if (tabId === 'admin' && sessionStorage.getItem('kudoz_auth_admin') === 'true') {
+            showProtected('admin');
+        }
     }
+
+    async function verifyAccess(role) {
+        const input = document.getElementById(role + '-password');
+        const error = document.getElementById(role + '-error');
+        const hash = await computeSHA256(input.value);
+
+        if (hash === HASHES[role]) {
+            sessionStorage.setItem('kudoz_auth_' + role, 'true');
+            error.style.display = 'none';
+            input.value = '';
+            showProtected(role);
+        } else {
+            error.style.display = 'block';
+        }
+    }
+
+    function showProtected(role) {
+        document.getElementById(role + '-auth').style.display = 'none';
+        document.getElementById(role + '-data').style.display = 'block';
+    }
+
+    function lockAccess(role) {
+        sessionStorage.removeItem('kudoz_auth_' + role);
+        document.getElementById(role + '-data').style.display = 'none';
+        document.getElementById(role + '-auth').style.display = 'block';
+    }
+
+    // Check pre-existing sessions on page load
+    window.addEventListener('DOMContentLoaded', () => {
+        if (sessionStorage.getItem('kudoz_auth_parent') === 'true') showProtected('parent');
+        if (sessionStorage.getItem('kudoz_auth_admin') === 'true') showProtected('admin');
+    });
 </script>
 </body>
 </html>
