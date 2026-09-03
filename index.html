@@ -550,267 +550,256 @@
                 <details open>
                     <summary>📚 Academic Test Progress Form (Direct Auto-Commit)</summary>
                     <div id="form-academic-wrapper" style="margin-top: 15px;">
-                        <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Kudoz AI - Multi-Subject Test Score Logger</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #f0f4f8;
-      padding: 24px;
-      color: #1e293b;
-    }
-    .card {
-      max-width: 900px;
-      margin: auto;
-      background: #ffffff;
-      padding: 28px;
-      border-radius: 12px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-    }
-    h2 {
-      margin-top: 0;
-      color: #1d4ed8;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .header-bar {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      margin-bottom: 20px;
-      padding-bottom: 16px;
-      border-bottom: 2px solid #e2e8f0;
-    }
-    .header-bar label {
-      font-weight: 600;
-      font-size: 14px;
-    }
-    .header-bar input {
-      padding: 8px 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    th, td {
-      padding: 10px;
-      text-align: left;
-      border-bottom: 1px solid #e2e8f0;
-    }
-    th {
-      background: #f8fafc;
-      font-size: 13px;
-      font-weight: 600;
-      color: #475569;
-    }
-    input, select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      box-sizing: border-box;
-      font-size: 13px;
-    }
-    .btn-add {
-      background: #10b981;
-      color: white;
-      padding: 9px 16px;
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 13px;
-      margin-top: 14px;
-    }
-    .btn-add:hover { background: #059669; }
-    .btn-delete {
-      background: #ef4444;
-      color: white;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 12px;
-    }
-    .btn-delete:hover { background: #dc2626; }
-    .btn-submit {
-      width: 100%;
-      margin-top: 24px;
-      padding: 14px;
-      background: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .btn-submit:hover { background: #1d4ed8; }
-    .counter {
-      font-size: 13px;
-      color: #64748b;
-      font-weight: normal;
-    }
-  </style>
-</head>
-<body>
+                        <!-- Kudoz AI Academic Progress Component -->
+<style>
+  .kudoz-academic-container {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.25rem;
+    box-sizing: border-box;
+    color: #1e293b;
+  }
+  .kudoz-academic-container h2 {
+    margin-top: 0;
+    color: #1d4ed8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+  }
+  .kudoz-academic-container .header-bar {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  .kudoz-academic-container .header-bar label {
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .kudoz-academic-container .header-bar input {
+    padding: 6px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 13px;
+  }
+  .kudoz-academic-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+  }
+  .kudoz-academic-container th, 
+  .kudoz-academic-container td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .kudoz-academic-container th {
+    background: #f8fafc;
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+  }
+  .kudoz-academic-container input, 
+  .kudoz-academic-container select {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 13px;
+  }
+  .kudoz-academic-container .btn-add {
+    background: #10b981;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: 12px;
+  }
+  .kudoz-academic-container .btn-add:hover { background: #059669; }
+  .kudoz-academic-container .btn-delete {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+  }
+  .kudoz-academic-container .btn-delete:hover { background: #dc2626; }
+  .kudoz-academic-container .btn-submit-action {
+    width: 100%;
+    margin-top: 20px;
+    padding: 12px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .kudoz-academic-container .btn-submit-action:hover { background: #1d4ed8; }
+  .kudoz-academic-container .counter {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: normal;
+  }
+</style>
 
-  <div class="card">
-    <h2>
-      <span>📝 Academic & Practice Test Entries</span>
-      <span class="counter" id="recordCounter">1 / 50 Records</span>
-    </h2>
+<div class="kudoz-academic-container">
+  <h2>
+    <span>📝 Academic & Practice Test Entries</span>
+    <span class="counter" id="recordCounter">1 / 50 Records</span>
+  </h2>
 
-    <div class="header-bar">
-      <label for="submissionDate">Entry Date:</label>
-      <input type="date" id="submissionDate" required>
-    </div>
-
-    <table>
-      <thead>
-        <tr>
-          <th style="width: 25%;">Category / Institution</th>
-          <th style="width: 30%;">Subject</th>
-          <th style="width: 18%;">Obtained Marks</th>
-          <th style="width: 18%;">Total Marks</th>
-          <th style="width: 9%; text-align: center;">Action</th>
-        </tr>
-      </thead>
-      <tbody id="testTableBody">
-        <!-- Rows dynamically injected here -->
-      </tbody>
-    </table>
-
-    <button type="button" class="btn-add" onclick="addRow()">+ Add Subject Record</button>
-    <button type="button" class="btn-submit" onclick="exportJSON()">Export Tests JSON to /feedbacks</button>
+  <div class="header-bar">
+    <label for="academicSubmissionDate">Entry Date:</label>
+    <input type="date" id="academicSubmissionDate" required>
   </div>
 
-  <script>
-    const MAX_RECORDS = 50;
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">Category / Institution</th>
+        <th style="width: 30%;">Subject</th>
+        <th style="width: 18%;">Obtained Marks</th>
+        <th style="width: 18%;">Total Marks</th>
+        <th style="width: 9%; text-align: center;">Action</th>
+      </tr>
+    </thead>
+    <tbody id="testTableBody">
+      <!-- Injected via script -->
+    </tbody>
+  </table>
+
+  <button type="button" class="btn-add" onclick="addAcademicRow()">+ Add Subject Record</button>
+  <button type="button" class="btn-submit-action" onclick="submitAcademicProgress()">
+    💾 Submit Academic Tests (Auto-Commit to Repo & Local Download)
+  </button>
+</div>
+
+<script>
+  (function() {
+    const dateInput = document.getElementById('academicSubmissionDate');
+    if (dateInput) dateInput.valueAsDate = new Date();
+  })();
+
+  const MAX_RECORDS = 50;
+
+  function updateCounter() {
     const tableBody = document.getElementById('testTableBody');
-    const dateInput = document.getElementById('submissionDate');
     const recordCounter = document.getElementById('recordCounter');
+    if (tableBody && recordCounter) {
+      recordCounter.textContent = `${tableBody.rows.length} / ${MAX_RECORDS} Records`;
+    }
+  }
 
-    // Default to today's date
-    dateInput.valueAsDate = new Date();
-
-    function updateCounter() {
-      const rowCount = tableBody.rows.length;
-      recordCounter.textContent = `${rowCount} / ${MAX_RECORDS} Records`;
+  function addAcademicRow() {
+    const tableBody = document.getElementById('testTableBody');
+    if (tableBody.rows.length >= MAX_RECORDS) {
+      alert("Maximum limit of 50 test records reached.");
+      return;
     }
 
-    function addRow() {
-      const currentRows = tableBody.rows.length;
-      if (currentRows >= MAX_RECORDS) {
-        alert("Maximum limit of 50 test records reached.");
+    const row = tableBody.insertRow();
+    row.innerHTML = `
+      <td>
+        <select class="category-input">
+          <option value="School">School Exam / Quiz</option>
+          <option value="Academy">Academy / Coaching Test</option>
+          <option value="Home">Home Practice Test</option>
+        </select>
+      </td>
+      <td>
+        <input type="text" class="subject-input" placeholder="e.g. Mathematics" required>
+      </td>
+      <td>
+        <input type="number" class="obtained-input" step="0.5" min="0" placeholder="45" required>
+      </td>
+      <td>
+        <input type="number" class="total-input" step="0.5" min="0.5" placeholder="50" required>
+      </td>
+      <td style="text-align: center;">
+        <button type="button" class="btn-delete" onclick="removeAcademicRow(this)">✕</button>
+      </td>
+    `;
+    updateCounter();
+  }
+
+  function removeAcademicRow(btn) {
+    const tableBody = document.getElementById('testTableBody');
+    if (tableBody.rows.length <= 1) {
+      alert("At least one test entry is required.");
+      return;
+    }
+    btn.closest('tr').remove();
+    updateCounter();
+  }
+
+  function submitAcademicProgress() {
+    const tableBody = document.getElementById('testTableBody');
+    const rows = tableBody.rows;
+    const entryDate = document.getElementById('academicSubmissionDate').value;
+
+    if (!entryDate) {
+      alert("Please select a valid date.");
+      return;
+    }
+
+    const testsList = [];
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows[i];
+      const category = row.querySelector('.category-input').value;
+      const subject = row.querySelector('.subject-input').value.trim();
+      const obtained = parseFloat(row.querySelector('.obtained-input').value);
+      const total = parseFloat(row.querySelector('.total-input').value);
+
+      if (!subject) {
+        alert(`Row ${i + 1}: Subject cannot be empty.`);
+        return;
+      }
+      if (isNaN(obtained) || isNaN(total) || total <= 0 || obtained > total) {
+        alert(`Row ${i + 1}: Please enter valid marks (Obtained <= Total).`);
         return;
       }
 
-      const row = tableBody.insertRow();
-      row.innerHTML = `
-        <td>
-          <select class="category-input">
-            <option value="School">School Exam / Quiz</option>
-            <option value="Academy">Academy / Coaching Test</option>
-            <option value="Home">Home Practice Test</option>
-          </select>
-        </td>
-        <td>
-          <input type="text" class="subject-input" placeholder="e.g. Mathematics" required>
-        </td>
-        <td>
-          <input type="number" class="obtained-input" step="0.5" min="0" placeholder="e.g. 45" required>
-        </td>
-        <td>
-          <input type="number" class="total-input" step="0.5" min="0.5" placeholder="e.g. 50" required>
-        </td>
-        <td style="text-align: center;">
-          <button type="button" class="btn-delete" onclick="removeRow(this)">✕</button>
-        </td>
-      `;
-      updateCounter();
+      testsList.push({
+        category: category,
+        subject: subject,
+        obtained_marks: obtained,
+        total_marks: total,
+        percentage: parseFloat(((obtained / total) * 100).toFixed(1))
+      });
     }
 
-    function removeRow(btn) {
-      if (tableBody.rows.length <= 1) {
-        alert("At least one test entry is required.");
-        return;
-      }
-      btn.closest('tr').remove();
-      updateCounter();
+    const payload = {
+      type: "academic_tests_batch",
+      date: entryDate,
+      total_tests_logged: testsList.length,
+      tests: testsList
+    };
+
+    if (window.submitFeedbackJson) {
+      window.submitFeedbackJson("academic_progress", payload, "parent");
+    } else {
+      alert("Submission handler not found. Please log in.");
     }
+  }
 
-    function exportJSON() {
-      const rows = tableBody.rows;
-      if (rows.length === 0) {
-        alert("Please add at least one test record.");
-        return;
-      }
+  // Ensure default row on load
+  if (document.getElementById('testTableBody') && document.getElementById('testTableBody').rows.length === 0) {
+    addAcademicRow();
+  }
+</script>
 
-      const entryDate = dateInput.value;
-      if (!entryDate) {
-        alert("Please select a valid date.");
-        return;
-      }
-
-      const testsList = [];
-
-      for (let i = 0; i < rows.length; i++) {
-        const row = rows[i];
-        const category = row.querySelector('.category-input').value;
-        const subject = row.querySelector('.subject-input').value.trim();
-        const obtained = parseFloat(row.querySelector('.obtained-input').value);
-        const total = parseFloat(row.querySelector('.total-input').value);
-
-        if (!subject) {
-          alert(`Row ${i + 1}: Subject cannot be empty.`);
-          return;
-        }
-        if (isNaN(obtained) || isNaN(total) || total <= 0 || obtained > total) {
-          alert(`Row ${i + 1}: Please enter valid obtained marks and total marks (Obtained <= Total).`);
-          return;
-        }
-
-        const percentage = ((obtained / total) * 100).toFixed(1);
-
-        testsList.push({
-          category: category,
-          subject: subject,
-          obtained_marks: obtained,
-          total_marks: total,
-          percentage: parseFloat(percentage)
-        });
-      }
-
-      const payload = {
-        type: "academic_tests_batch",
-        date: entryDate,
-        total_tests_logged: testsList.length,
-        tests: testsList
-      };
-
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(payload, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `academic_tests_${entryDate}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
-    }
-
-    // Initialize with 1 default row
-    addRow();
-  </script>
-</body>
-</html>
                     </div>
                 </details>
             </div>
@@ -1059,8 +1048,8 @@
     };
 
     const ENC_TOKENS = {
-        student: "3fc676e17bdd7bc85ab2cc7ffcf0e03e0e0e4feeee62f851ade18c27ebc3ac5488a0e975e2d57ff1c7829d0a9131d0bb326a08f0df696868d5c1733301e36bd2996875c4318c8359e6643c42caa22d0955a0c3fe84bd43ff3e89856526c7883e73b8a5fe704b889bb986f4d381f68b81",
-        parent: "bd291bc44e2831d2fa19c63d1c125f58da65540aaea183fc7fd0ba0a70e56744a00ea2ca2063a40c8c3e9a6444ff7e56cee3e3a80d63b9266683eedfc68b4a5d9925b88cb5b4484efbc1e51bc0bc102755c8476a25d1cd7a9015540d0160f77ec0a775ec29849a04fb06e52b7d6ebe7c"
+        student: "4e98b02719317b3afed6787d3530494d8afd31a5c94efad98a3af2389ffc94f4311b8ba4ae3a2999e79ca07e901d26230a524a1a1d005692c3388e29abaa095ce26271c292247dab2044f99aaa0fe14fad0636580c64bd5ff30eeac1fcf248ee334aaae4ddf362533b96b57f5e90a924",
+        parent: "0f1e6a5703b5d0779f3cb9a5940ca7e43f59b13ef5e4b2095c562d9a7270d550100d596d68ddea46242edd8ccaab9070aa07d36371daf4c3be61793f93fee3534c0d2293b6c414fac374084ae2b263b9bb6b7eb2a06955831938b07575634926a1d04380af4523e9f7c47d494e7fffa6"
     };
 
     const CRYPTO_KEYS = {
