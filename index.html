@@ -24,7 +24,7 @@
         header {
             background: #18202c;
             color: white;
-            padding: 20px 32px;
+            padding: 18px 32px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -60,6 +60,14 @@
         }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+        .section-box {
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 28px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        }
         .report-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -143,7 +151,7 @@
             font-weight: 600;
             cursor: pointer;
             float: right;
-            margin-top: -30px;
+            margin-top: -10px;
         }
         .error-msg { color: #dc2626; font-size: 13px; margin-top: 8px; display: none; }
         .log-terminal {
@@ -156,8 +164,13 @@
             max-height: 280px;
             overflow-y: auto;
             white-space: pre-wrap;
-            margin-bottom: 20px;
             border: 1px solid #334155;
+        }
+        details > summary {
+            cursor: pointer;
+            font-weight: 600;
+            padding: 10px 0;
+            color: var(--primary);
         }
     </style>
 </head>
@@ -171,15 +184,15 @@
 <div class="nav-tabs">
     <button class="tab-btn active" onclick="switchTab(event, 'student')">🎮 Student Portal</button>
     <button class="tab-btn" onclick="switchTab(event, 'parent')">👨‍👩‍👦 Parent Portal</button>
-    <button class="tab-btn" onclick="switchTab(event, 'admin')">⚙️ Administrator & Logs</button>
+    <button class="tab-btn" onclick="switchTab(event, 'admin')">⚙️ Administrator Console</button>
 </div>
 
 <div class="container">
-    <!-- 1. STUDENT PORTAL -->
+    <!-- 1. STUDENT TAB -->
     <div id="student" class="tab-content active">
         <div id="student-auth" class="auth-box">
             <h3>🎮 Student Gateway</h3>
-            <p style="font-size: 13px; color: var(--text-light);">Enter your student key to decrypt your daily quests & reward certificates:</p>
+            <p style="font-size: 13px; color: var(--text-light);">Enter student password to access daily tracker and reports:</p>
             <input type="password" id="student-password" placeholder="Enter Student Password" onkeydown="if(event.key==='Enter') unlockRole('student')">
             <br/>
             <button class="auth-btn" onclick="unlockRole('student')">Unlock Student Portal</button>
@@ -187,9 +200,19 @@
         </div>
 
         <div id="student-data" style="display:none;">
-            <button class="logout-btn" onclick="lockRole('student')">🔒 Lock Section</button>
-            <h2>🎮 Daily Quests & Focus Challenges</h2>
-            <p>Your screen summaries and daily focus achievements for the trailing 8 days:</p>
+            <button class="logout-btn" onclick="lockRole('student')">🔒 Lock</button>
+
+            <!-- Student Form Embedded -->
+            <div class="section-box">
+                <details open>
+                    <summary>📝 Daily Habit & Quest Tracker Form (Direct Auto-Commit)</summary>
+                    <div id="form-tracker-wrapper" style="margin-top: 15px;">
+                        <p class='empty-text'>Form file 'tracker.html' not found in forms.</p>
+                    </div>
+                </details>
+            </div>
+
+            <h2>🎮 Daily Screen Time Quests</h2>
             <div class="report-grid">
             <div class="card">
                 <div class="card-date">Wednesday, September 02, 2026</div>
@@ -247,7 +270,6 @@
             </div>
 
             <h2 style="margin-top: 36px;">🏆 Weekly Reward Reports & Certificates</h2>
-            <p>Your multi-pillar scorecards and Saturday Certificates of Excellence:</p>
             <div class="report-grid">
             <div class="card">
                 <div class="card-date">Thursday, September 03, 2026</div>
@@ -270,11 +292,11 @@
         </div>
     </div>
 
-    <!-- 2. PARENT PORTAL -->
+    <!-- 2. PARENT TAB -->
     <div id="parent" class="tab-content">
         <div id="parent-auth" class="auth-box">
             <h3>🔒 Parent Portal Gateway</h3>
-            <p style="font-size: 13px; color: var(--text-light);">Enter the parent password to decrypt executive productivity and academic reviews:</p>
+            <p style="font-size: 13px; color: var(--text-light);">Enter parent password to access forms and reports:</p>
             <input type="password" id="parent-password" placeholder="Enter Parent Password" onkeydown="if(event.key==='Enter') unlockRole('parent')">
             <br/>
             <button class="auth-btn" onclick="unlockRole('parent')">Unlock Parent Portal</button>
@@ -282,9 +304,28 @@
         </div>
 
         <div id="parent-data" style="display:none;">
-            <button class="logout-btn" onclick="lockRole('parent')">🔒 Lock Section</button>
+            <button class="logout-btn" onclick="lockRole('parent')">🔒 Lock</button>
+
+            <!-- Parent Forms Embedded -->
+            <div class="section-box">
+                <details open>
+                    <summary>📚 Academic Test Progress Form (Direct Auto-Commit)</summary>
+                    <div id="form-academic-wrapper" style="margin-top: 15px;">
+                        <p class='empty-text'>Form file 'Academic_progress.html' not found in forms.</p>
+                    </div>
+                </details>
+            </div>
+
+            <div class="section-box">
+                <details>
+                    <summary>👨‍👩‍👦 Weekly Parental Feedback Form (Direct Auto-Commit)</summary>
+                    <div id="form-parents-wrapper" style="margin-top: 15px;">
+                        <p class='empty-text'>Form file 'parents_feedback.html' not found in forms.</p>
+                    </div>
+                </details>
+            </div>
+
             <h2>📊 Executive Productivity Reports</h2>
-            <p>Detailed application usage metrics, context-switching anomalies, and focus trends:</p>
             <div class="report-grid">
             <div class="card">
                 <div class="card-date">Wednesday, September 02, 2026</div>
@@ -333,7 +374,6 @@
             </div>
 
             <h2 style="margin-top: 36px;">🏆 Weekly Reward Evaluations</h2>
-            <p>Comprehensive 3-pillar audit reports and weekend reward passes:</p>
             <div class="report-grid">
             <div class="card">
                 <div class="card-date">Thursday, September 03, 2026</div>
@@ -356,21 +396,20 @@
         </div>
     </div>
 
-    <!-- 3. ADMINISTRATOR CONSOLE -->
+    <!-- 3. ADMIN TAB -->
     <div id="admin" class="tab-content">
         <div id="admin-auth" class="auth-box">
             <h3>🔒 Administrator Console</h3>
-            <p style="font-size: 13px; color: var(--text-light);">Enter master admin password to inspect execution logs, errors, and system health:</p>
+            <p style="font-size: 13px; color: var(--text-light);">Enter master admin password to inspect logs and pipeline health:</p>
             <input type="password" id="admin-password" placeholder="Enter Admin Password" onkeydown="if(event.key==='Enter') unlockAdmin()">
             <br/>
-            <button class="auth-btn" onclick="unlockAdmin()">Unlock Admin Diagnostics</button>
+            <button class="auth-btn" onclick="unlockAdmin()">Unlock Admin View</button>
             <div id="admin-error" class="error-msg">Incorrect admin password.</div>
         </div>
 
         <div id="admin-data" style="display:none;">
-            <button class="logout-btn" onclick="lockRole('admin')">🔒 Lock Console</button>
+            <button class="logout-btn" onclick="lockRole('admin')">🔒 Lock</button>
             <h2>⚙️ 7-Day Pipeline Health Audit</h2>
-            <p>Status of daily Kid/Parent PDFs and feedback submissions across the trailing week:</p>
             <table class="table">
                 <thead>
                     <tr>
@@ -441,8 +480,7 @@
                 </tbody>
             </table>
 
-            <h2>🛠️ Live Job Logs & Error Diagnostics</h2>
-            <p>Decrypted run logs from recent GitHub Action executions:</p>
+            <h2>🛠️ Live Action Execution Logs</h2>
             <div id="admin-logs-container">
                 <p class="empty-text">Loading diagnostics...</p>
             </div>
@@ -451,10 +489,17 @@
 </div>
 
 <script>
+    const REPO_OWNER = "rohaancloud545400";
+    const REPO_NAME = "daily-aw-coach";
     const HASHES = {
         student: "8d4a0ea7b5f90e9c45e562596a8da02a87131b77a76f5eea4b350f9c3ec39fde",
         parent: "1c3f70129714ab9ddb509bc4edb3c2166b4e01bf0e2dceaaf9c6a69b92525935",
         admin: "861b3c167d30e87c831b461d37aded9f6405d6dfea9d312697487f8032921b06"
+    };
+
+    const ENC_TOKENS = {
+        student: "9bee8a0c2fe5b97aa0810783fd11210fee95da7fb21cfb5c79063c0d36b9a9a1741acaba65680ebc6e68c96080a3b680fe549bcd955d6fa387374ef58f63128f014c5717855ae12427a654728863061af42bc9f2fc9f9c80f867f3a17256335978ef6725c777987aaf9026a93288997e",
+        parent: "6ff22329d7fba20c805d9ce4e5a4119c39047f3b291a9a5a9e239eacdfd9e8ae1b87063156bcc25c6f98d84ea51755ff5d481f156dba5d821977c8f9d7edc5f5fb7869ded300c81e81afbf6c5bf6d4925a19ed235eb1bd30ecf9e8256cf775b5dc6824c8d6720400e566cf4eec9e4db8"
     };
 
     const CRYPTO_KEYS = {
@@ -462,6 +507,14 @@
         parent: null,
         admin: null
     };
+
+    function hexToBytes(hex) {
+        const bytes = new Uint8Array(hex.length / 2);
+        for (let i = 0; i < hex.length; i += 2) {
+            bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
+        }
+        return bytes;
+    }
 
     async function sha256(text) {
         const buffer = new TextEncoder().encode(text.trim());
@@ -523,29 +576,96 @@
         document.getElementById(role + '-auth').style.display = 'block';
     }
 
+    async function getDecryptedToken(role) {
+        const encHex = ENC_TOKENS[role];
+        if (!encHex || !CRYPTO_KEYS[role]) return null;
+        try {
+            const rawBytes = hexToBytes(encHex);
+            const iv = rawBytes.slice(0, 16);
+            const ciphertext = rawBytes.slice(16);
+            const decBuf = await crypto.subtle.decrypt({ name: "AES-CBC", iv: iv }, CRYPTO_KEYS[role], ciphertext);
+            return new TextDecoder().decode(decBuf);
+        } catch (e) {
+            return null;
+        }
+    }
+
+    // UNIVERSAL FORM SUBMISSION: Saves local copy AND pushes directly to private repo
+    window.submitFeedbackJson = async function(filenameBase, jsonData, role) {
+        const now = new Date();
+        const yyyy = now.getFullYear();
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const dd = String(now.getDate()).padStart(2, '0');
+        const filename = `${filenameBase}_${yyyy}_${mm}_${dd}.json`;
+        const jsonString = JSON.stringify(jsonData, null, 2);
+
+        // 1. Parallel Local Download
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const localLink = document.createElement('a');
+        localLink.href = URL.createObjectURL(blob);
+        localLink.download = filename;
+        document.body.appendChild(localLink);
+        localLink.click();
+        document.body.removeChild(localLink);
+
+        // 2. Parallel Commit to Private Repo via GitHub API
+        const token = await getDecryptedToken(role);
+        if (!token || !REPO_OWNER || !REPO_NAME) {
+            alert(`✅ Local backup saved as '${filename}'.\n(GitHub auto-upload skipped: token not configured).`);
+            return;
+        }
+
+        const filePath = `feedbacks/${filename}`;
+        const apiUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filePath}`;
+        const contentBase64 = btoa(unescape(encodeURIComponent(jsonString)));
+
+        try {
+            let sha = null;
+            const checkRes = await fetch(apiUrl, {
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            if (checkRes.ok) {
+                const existing = await checkRes.json();
+                sha = existing.sha;
+            }
+
+            const commitRes = await fetch(apiUrl, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    "Accept": "application/vnd.github+json"
+                },
+                body: JSON.stringify({
+                    message: `chore(data): auto-commit feedback ${filename} [skip ci]`,
+                    content: contentBase64,
+                    branch: "main",
+                    ...(sha ? { sha } : {})
+                })
+            });
+
+            if (commitRes.ok) {
+                alert(`🚀 Success! '${filename}' was backed up locally AND committed directly to the private repository!`);
+            } else {
+                const err = await commitRes.json();
+                alert(`⚠️ Local file saved, but GitHub upload failed: ${err.message}`);
+            }
+        } catch(e) {
+            alert(`⚠️ Local file saved. Network error while contacting GitHub.`);
+        }
+    };
+
     async function fetchAndDecryptBlob(encUrl, role) {
-        if (!CRYPTO_KEYS[role]) {
-            alert("Please unlock this portal tab first.");
-            return null;
-        }
+        if (!CRYPTO_KEYS[role]) return null;
         const res = await fetch(encUrl);
-        if (!res.ok) {
-            alert("File not found or network error.");
-            return null;
-        }
+        if (!res.ok) return null;
         const buf = await res.arrayBuffer();
         const iv = buf.slice(0, 16);
         const ciphertext = buf.slice(16);
 
         try {
-            const decrypted = await crypto.subtle.decrypt(
-                { name: "AES-CBC", iv: iv },
-                CRYPTO_KEYS[role],
-                ciphertext
-            );
-            return decrypted;
+            return await crypto.subtle.decrypt({ name: "AES-CBC", iv: iv }, CRYPTO_KEYS[role], ciphertext);
         } catch(e) {
-            alert("Decryption failed. Password mismatch.");
             return null;
         }
     }
@@ -554,8 +674,7 @@
         const decrypted = await fetchAndDecryptBlob(encUrl, role);
         if (decrypted) {
             const blob = new Blob([decrypted], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            window.open(url, '_blank');
+            window.open(URL.createObjectURL(blob), '_blank');
         }
     }
 
@@ -576,31 +695,31 @@
         try {
             const res = await fetch('admin_diagnostics.enc');
             if (!res.ok) {
-                document.getElementById('admin-logs-container').innerHTML = '<p class="empty-text">No diagnostic log files bundled for this run.</p>';
+                document.getElementById('admin-logs-container').innerHTML = '<p class="empty-text">No diagnostics recorded.</p>';
                 return;
             }
             const buf = await res.arrayBuffer();
             const iv = buf.slice(0, 16);
             const ciphertext = buf.slice(16);
-            const decrypted = await crypto.subtle.decrypt({ name: "AES-CBC", iv: iv }, CRYPTO_KEYS.admin, ciphertext);
-            const data = JSON.parse(new TextDecoder().decode(decrypted));
+            const dec = await crypto.subtle.decrypt({ name: "AES-CBC", iv: iv }, CRYPTO_KEYS.admin, ciphertext);
+            const data = JSON.parse(new TextDecoder().decode(dec));
 
-            let html = '<p style="font-size: 13px; color: var(--text-light); margin-bottom: 12px;"><b>Audit Generated At:</b> ' + data.generated_at + ' | <b>Synced Feedbacks:</b> ' + data.raw_feedbacks_count + ' | <b>Archived PDFs:</b> ' + data.raw_reports_count + '</p>';
+            let html = '<p style="font-size: 13px; color: var(--text-light); margin-bottom: 12px;"><b>Generated:</b> ' + data.generated_at + ' | <b>Feedbacks:</b> ' + data.raw_feedbacks_count + ' | <b>PDFs:</b> ' + data.raw_reports_count + '</p>';
             if (data.logs && data.logs.length > 0) {
                 data.logs.forEach(log => {
                     html += '<div style="font-size: 12px; font-weight: bold; margin-bottom: 4px;">📄 ' + log.file + ' (' + log.timestamp + ')</div>';
                     html += '<div class="log-terminal">' + log.content.replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</div>';
                 });
             } else {
-                html += '<p class="empty-text">No error or execution logs recorded.</p>';
+                html += '<p class="empty-text">No active error logs.</p>';
             }
             document.getElementById('admin-logs-container').innerHTML = html;
         } catch(e) {
-            document.getElementById('admin-logs-container').innerHTML = '<p style="color: #dc2626;">Failed to decrypt admin diagnostics.</p>';
+            document.getElementById('admin-logs-container').innerHTML = '<p style="color: #dc2626;">Diagnostic decryption failed.</p>';
         }
     }
 
-    // Auto re-login from session
+    // Auto-login from active browser session
     window.addEventListener('DOMContentLoaded', async () => {
         for (const role of ['student', 'parent']) {
             const saved = sessionStorage.getItem('kudoz_' + role + '_pass');
