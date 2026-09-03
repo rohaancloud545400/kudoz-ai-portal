@@ -403,7 +403,7 @@
 
     <div class="actions-grid">
       <button type="submit" class="btn-submit-action">
-        💾 Submit Tracker (Auto-Commit to Repo & Local Download)
+  🚀 Push Daily Tracker to KudozAI Server
       </button>
     </div>
   </form>
@@ -416,31 +416,32 @@
   })();
 
   function submitTracker() {
-    const name = document.getElementById('trackerStudentName').value.trim() || 'Student';
-    const date = document.getElementById('trackerDate').value;
-    const q1 = document.getElementById('trackerQ1').value.trim() || 'None';
-    const q2 = document.getElementById('trackerQ2').value.trim() || 'None';
-    const q3 = document.querySelector('input[name="tracker_q3_status"]:checked').value;
-    const q4 = document.querySelector('input[name="tracker_q4_deadlines"]:checked').value;
-    const q5 = document.getElementById('trackerQ5').value.trim() || 'Standard work completed';
+    const name = document.getElementById('trackerStudentName').value.trim() || 'Student'; //[cite: 2]
+    const date = document.getElementById('trackerDate').value; //[cite: 2]
+    const q1 = document.getElementById('trackerQ1').value.trim() || 'None'; //[cite: 2]
+    const q2 = document.getElementById('trackerQ2').value.trim() || 'None'; //[cite: 2]
+    const q3 = document.querySelector('input[name="tracker_q3_status"]:checked').value; //[cite: 2]
+    const q4 = document.querySelector('input[name="tracker_q4_deadlines"]:checked').value; //[cite: 2]
+    const q5 = document.getElementById('trackerQ5').value.trim() || 'Standard work completed'; //[cite: 2]
 
     const payload = {
       meta: {
-        student_name: name,
-        submission_date: date,
-        created_at: new Date().toISOString()
+        student_name: name, //[cite: 2]
+        submission_date: date, //[cite: 2]
+        created_at: new Date().toISOString() //[cite: 2]
       },
       responses: {
-        plan_configured_today: q1,
-        plan_finalized_for_tomorrow: q2,
-        work_completed_as_per_today_plan: q3,
-        overall_deadlines_status: q4,
-        outclass_learning_elaborated: q5
+        plan_configured_today: q1, //[cite: 2]
+        plan_finalized_for_tomorrow: q2, //[cite: 2]
+        work_completed_as_per_today_plan: q3, //[cite: 2]
+        overall_deadlines_status: q4, //[cite: 2]
+        outclass_learning_elaborated: q5 //[cite: 2]
       }
     };
 
     if (window.submitFeedbackJson) {
-      window.submitFeedbackJson("tracker", payload, "student");
+      // Passes "Tracker", payload, role ("student"), and name ("M Rohaan")
+      window.submitFeedbackJson("Tracker", payload, "student", name);
     } else {
       alert("Submission handler not found. Please ensure you are logged in.");
     }
@@ -682,7 +683,7 @@
 
   <button type="button" class="btn-add" onclick="addAcademicRow()">+ Add Subject Record</button>
   <button type="button" class="btn-submit-action" onclick="submitAcademicProgress()">
-    💾 Submit Academic Tests (Auto-Commit to Repo & Local Download)
+  🚀 Push Academic Tests to KudozAI Server
   </button>
 </div>
 
@@ -877,7 +878,7 @@
     <textarea id="fatherNotes" placeholder="e.g. Practiced problem sets without reminders. Great routine."></textarea>
 
     <button type="submit" class="btn-submit-action">
-      💾 Submit Parent Feedback (Auto-Commit to Repo & Local Download)
+  🚀 Push Parent Feedback to KudozAI Server
     </button>
   </form>
 </div>
@@ -1023,7 +1024,7 @@
             <td><b>2026-09-03</b> (Thursday)</td>
             <td><span class="badge badge-danger">Missing</span></td>
             <td><span class="badge badge-danger">Missing</span></td>
-            <td><span class="badge badge-neutral">None</span></td>
+            <td><span class="badge badge-success">Logged</span></td>
         </tr>
         
         <tr>
@@ -1096,8 +1097,8 @@
     };
 
     const ENC_TOKENS = {
-        student: "56c01af9d68b12286f3d54334d8f8ba6ad0e9660a25ca05c566c1c26ab96b47732b7dcd6aafda32907cbae4cff044cfbcc3bd761bcdd5373eae040c57354dc37f18358323ece9494aa097beb84094494047e9d9c3bfbaf91aa1394323f27a38d81cf150d4b3064c7f649d8b419cb1ff6",
-        parent: "5849c294049784f5e8fdf8015199fa9b12ae89ae7884150acdadd566e37b5810043d62e883c6d76f1c82bc46fcc3855b2ff17a161a7270419c0ccee6760393a7d58828d794f9b12f743ac97a2760ebe030cf23c518ff5708f03e6a65abcd7421fdc3aba0f758be8d891c9441bc6dc2c7"
+        student: "62d783846bc44572f71f6cd884ef7982c83b8d5d9e079bda6f68fda04aae5754332a7372b7dc98b7aee26772a124c6039f2a41450522c4ddb16f36abc3e8e9a78f12c0eaa02d6ea2e875aa2d483c25bb04c6fdc666a8503677a2bb8a18e8f174bf7009589cb3b088ba738c3ac34b3adf",
+        parent: "e9b29334dca135b6d177593215245641286475fb4d772859ed60d6a5826575f1d361c859638c8366333467cd84c537df837d902f7bacd46bec99b89f3f496ed017bf63820c15a084f434adbfec007ef8bc8f25279aa44d552edbc981bee4609eba30f60766df1644a786020a5f68d45c"
     };
 
     const CRYPTO_KEYS = {
@@ -1188,28 +1189,30 @@
         }
     }
 
-    // UNIVERSAL FORM SUBMISSION: Saves local copy AND pushes directly to private repo
-    window.submitFeedbackJson = async function(filenameBase, jsonData, role) {
+    // Modal Confirm & Direct Commit to Private Repository
+    window.submitFeedbackJson = async function(filenameBase, jsonData, role, studentName = "") {
+        // Confirmation Prompt
+        const confirmed = confirm("Do you want to push your changes to KudozAI Server?");
+        if (!confirmed) {
+            return;
+        }
+
         const now = new Date();
         const yyyy = now.getFullYear();
         const mm = String(now.getMonth() + 1).padStart(2, '0');
         const dd = String(now.getDate()).padStart(2, '0');
-        const filename = `${filenameBase}_${yyyy}_${mm}_${dd}.json`;
+
+        let cleanName = "";
+        if (studentName && studentName.trim().length > 0) {
+            cleanName = "_" + studentName.trim().replace(/[^a-zA-Z0-9]/g, '_');
+        }
+
+        const filename = `${filenameBase}${cleanName}_${yyyy}_${mm}_${dd}.json`;
         const jsonString = JSON.stringify(jsonData, null, 2);
 
-        // 1. Parallel Local Download
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        const localLink = document.createElement('a');
-        localLink.href = URL.createObjectURL(blob);
-        localLink.download = filename;
-        document.body.appendChild(localLink);
-        localLink.click();
-        document.body.removeChild(localLink);
-
-        // 2. Parallel Commit to Private Repo via GitHub API
         const token = await getDecryptedToken(role);
         if (!token || !REPO_OWNER || !REPO_NAME) {
-            alert(`✅ Local backup saved as '${filename}'.\n(GitHub auto-upload skipped: token not configured).`);
+            alert("⚠️ Submission failed: GitHub authorization token or repository information is missing.");
             return;
         }
 
@@ -1235,7 +1238,7 @@
                     "Accept": "application/vnd.github+json"
                 },
                 body: JSON.stringify({
-                    message: `chore(data): auto-commit feedback ${filename} [skip ci]`,
+                    message: `chore(data): push ${filename} to KudozAI Server [skip ci]`,
                     content: contentBase64,
                     branch: "main",
                     ...(sha ? { sha } : {})
@@ -1243,13 +1246,13 @@
             });
 
             if (commitRes.ok) {
-                alert(`🚀 Success! '${filename}' was backed up locally AND committed directly to the private repository!`);
+                alert("🎉 Successfully pushed your changes to KudozAI Server!");
             } else {
                 const err = await commitRes.json();
-                alert(`⚠️ Local file saved, but GitHub upload failed: ${err.message}`);
+                alert(`⚠️ Upload failed: ${err.message || 'Server rejected changes'}`);
             }
         } catch(e) {
-            alert(`⚠️ Local file saved. Network error while contacting GitHub.`);
+            alert("⚠️ Network error: Could not connect to KudozAI Server.");
         }
     };
 
