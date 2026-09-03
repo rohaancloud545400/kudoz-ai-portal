@@ -81,9 +81,10 @@
             text-align: center;
             padding: 8px 10px;
             border-radius: 6px;
-            text-decoration: none;
             font-size: 12px;
             font-weight: bold;
+            cursor: pointer;
+            border: none;
         }
         .btn-view { background: var(--primary); color: white; }
         .btn-view:hover { background: var(--primary-dark); }
@@ -95,6 +96,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 24px;
         }
         .table th, .table td { padding: 10px 14px; border-bottom: 1px solid var(--border); text-align: left; font-size: 13px; }
         .table th { background: #f1f5f9; font-weight: 600; }
@@ -103,8 +105,6 @@
         .badge-danger { background: #fee2e2; color: #b91c1c; }
         .badge-neutral { background: #f1f5f9; color: #64748b; }
         .empty-text { color: var(--text-light); font-style: italic; }
-        
-        /* Auth Gate Styles */
         .auth-box {
             max-width: 420px;
             margin: 40px auto;
@@ -133,7 +133,6 @@
             font-weight: 600;
             cursor: pointer;
         }
-        .auth-btn:hover { background: var(--primary-dark); }
         .logout-btn {
             background: #f1f5f9;
             color: #b91c1c;
@@ -147,6 +146,19 @@
             margin-top: -30px;
         }
         .error-msg { color: #dc2626; font-size: 13px; margin-top: 8px; display: none; }
+        .log-terminal {
+            background: #0f172a;
+            color: #38bdf8;
+            padding: 16px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 280px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+            border: 1px solid #334155;
+        }
     </style>
 </head>
 <body>
@@ -157,24 +169,34 @@
 </header>
 
 <div class="nav-tabs">
-    <button class="tab-btn active" onclick="switchTab(event, 'student')">🎮 Student Portal (Open)</button>
-    <button class="tab-btn" onclick="switchTab(event, 'rewards')">🏆 Weekly Certificates (Open)</button>
-    <button class="tab-btn" onclick="switchTab(event, 'parent')">🔒 Parent Portal</button>
-    <button class="tab-btn" onclick="switchTab(event, 'admin')">🔒 Administrator Logs</button>
+    <button class="tab-btn active" onclick="switchTab(event, 'student')">🎮 Student Portal</button>
+    <button class="tab-btn" onclick="switchTab(event, 'parent')">👨‍👩‍👦 Parent Portal</button>
+    <button class="tab-btn" onclick="switchTab(event, 'admin')">⚙️ Administrator & Logs</button>
 </div>
 
 <div class="container">
-    <!-- 1. Student Portal (Public to Student) -->
+    <!-- 1. STUDENT PORTAL -->
     <div id="student" class="tab-content active">
-        <h2>🎮 Daily Quests & Screen Time Summaries</h2>
-        <p>Your daily screen-time summaries, quest challenges, and focus scores for today and previous 7 days:</p>
-        <div class="report-grid">
+        <div id="student-auth" class="auth-box">
+            <h3>🎮 Student Gateway</h3>
+            <p style="font-size: 13px; color: var(--text-light);">Enter your student key to decrypt your daily quests & reward certificates:</p>
+            <input type="password" id="student-password" placeholder="Enter Student Password" onkeydown="if(event.key==='Enter') unlockRole('student')">
+            <br/>
+            <button class="auth-btn" onclick="unlockRole('student')">Unlock Student Portal</button>
+            <div id="student-error" class="error-msg">Incorrect password.</div>
+        </div>
+
+        <div id="student-data" style="display:none;">
+            <button class="logout-btn" onclick="lockRole('student')">🔒 Lock Section</button>
+            <h2>🎮 Daily Quests & Focus Challenges</h2>
+            <p>Your screen summaries and daily focus achievements for the trailing 8 days:</p>
+            <div class="report-grid">
             <div class="card">
                 <div class="card-date">Wednesday, September 02, 2026</div>
                 <div class="card-title">Summary_For_Kids_2026-09-02.pdf</div>
                 <div class="card-actions">
-                    <a href="reports/Summary_For_Kids_2026-09-02.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Summary_For_Kids_2026-09-02.pdf" download class="btn btn-download">Download</a>
+                    <button onclick="decryptAndOpen('reports/student/Summary_For_Kids_2026-09-02.enc', 'Summary_For_Kids_2026-09-02.pdf', 'student')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/student/Summary_For_Kids_2026-09-02.enc', 'Summary_For_Kids_2026-09-02.pdf', 'student')" class="btn btn-download">Download</button>
                 </div>
             </div>
             
@@ -182,8 +204,8 @@
                 <div class="card-date">Tuesday, September 01, 2026</div>
                 <div class="card-title">Summary_For_Kids_2026-09-01.pdf</div>
                 <div class="card-actions">
-                    <a href="reports/Summary_For_Kids_2026-09-01.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Summary_For_Kids_2026-09-01.pdf" download class="btn btn-download">Download</a>
+                    <button onclick="decryptAndOpen('reports/student/Summary_For_Kids_2026-09-01.enc', 'Summary_For_Kids_2026-09-01.pdf', 'student')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/student/Summary_For_Kids_2026-09-01.enc', 'Summary_For_Kids_2026-09-01.pdf', 'student')" class="btn btn-download">Download</button>
                 </div>
             </div>
             
@@ -191,8 +213,8 @@
                 <div class="card-date">Monday, August 31, 2026</div>
                 <div class="card-title">Summary_For_Kids_2026-08-31.pdf</div>
                 <div class="card-actions">
-                    <a href="reports/Summary_For_Kids_2026-08-31.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Summary_For_Kids_2026-08-31.pdf" download class="btn btn-download">Download</a>
+                    <button onclick="decryptAndOpen('reports/student/Summary_For_Kids_2026-08-31.enc', 'Summary_For_Kids_2026-08-31.pdf', 'student')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/student/Summary_For_Kids_2026-08-31.enc', 'Summary_For_Kids_2026-08-31.pdf', 'student')" class="btn btn-download">Download</button>
                 </div>
             </div>
             
@@ -200,8 +222,8 @@
                 <div class="card-date">Saturday, August 29, 2026</div>
                 <div class="card-title">Summary_For_Kids_2026-08-29.pdf</div>
                 <div class="card-actions">
-                    <a href="reports/Summary_For_Kids_2026-08-29.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Summary_For_Kids_2026-08-29.pdf" download class="btn btn-download">Download</a>
+                    <button onclick="decryptAndOpen('reports/student/Summary_For_Kids_2026-08-29.enc', 'Summary_For_Kids_2026-08-29.pdf', 'student')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/student/Summary_For_Kids_2026-08-29.enc', 'Summary_For_Kids_2026-08-29.pdf', 'student')" class="btn btn-download">Download</button>
                 </div>
             </div>
             
@@ -209,8 +231,8 @@
                 <div class="card-date">Friday, August 28, 2026</div>
                 <div class="card-title">Summary_For_Kids_2026-08-28.pdf</div>
                 <div class="card-actions">
-                    <a href="reports/Summary_For_Kids_2026-08-28.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Summary_For_Kids_2026-08-28.pdf" download class="btn btn-download">Download</a>
+                    <button onclick="decryptAndOpen('reports/student/Summary_For_Kids_2026-08-28.enc', 'Summary_For_Kids_2026-08-28.pdf', 'student')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/student/Summary_For_Kids_2026-08-28.enc', 'Summary_For_Kids_2026-08-28.pdf', 'student')" class="btn btn-download">Download</button>
                 </div>
             </div>
             
@@ -218,24 +240,21 @@
                 <div class="card-date">Thursday, August 27, 2026</div>
                 <div class="card-title">Summary_For_Kids_2026-08-27.pdf</div>
                 <div class="card-actions">
-                    <a href="reports/Summary_For_Kids_2026-08-27.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Summary_For_Kids_2026-08-27.pdf" download class="btn btn-download">Download</a>
+                    <button onclick="decryptAndOpen('reports/student/Summary_For_Kids_2026-08-27.enc', 'Summary_For_Kids_2026-08-27.pdf', 'student')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/student/Summary_For_Kids_2026-08-27.enc', 'Summary_For_Kids_2026-08-27.pdf', 'student')" class="btn btn-download">Download</button>
                 </div>
             </div>
             </div>
-    </div>
 
-    <!-- 2. Weekly Reward Certificates (Open for Student & Parents) -->
-    <div id="rewards" class="tab-content">
-        <h2>🏆 Weekly Reward Reports & Certificates</h2>
-        <p>Holistic 4-pillar evaluation reports and earned Saturday Reward Certificates:</p>
-        <div class="report-grid">
+            <h2 style="margin-top: 36px;">🏆 Weekly Reward Reports & Certificates</h2>
+            <p>Your multi-pillar scorecards and Saturday Certificates of Excellence:</p>
+            <div class="report-grid">
             <div class="card">
                 <div class="card-date">Thursday, September 03, 2026</div>
                 <div class="card-title">Weekly_Reward_Report_V2_2026-09-03.pdf</div>
                 <div class="card-actions">
-                    <a href="reports/Weekly_Reward_Report_V2_2026-09-03.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Weekly_Reward_Report_V2_2026-09-03.pdf" download class="btn btn-download">Download</a>
+                    <button onclick="decryptAndOpen('reports/rewards_student/Weekly_Reward_Report_V2_2026-09-03.enc', 'Weekly_Reward_Report_V2_2026-09-03.pdf', 'student')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/rewards_student/Weekly_Reward_Report_V2_2026-09-03.enc', 'Weekly_Reward_Report_V2_2026-09-03.pdf', 'student')" class="btn btn-download">Download</button>
                 </div>
             </div>
             
@@ -243,35 +262,36 @@
                 <div class="card-date">Monday, August 31, 2026</div>
                 <div class="card-title">Weekly_Reward_Report_V2_2026-08-31.pdf</div>
                 <div class="card-actions">
-                    <a href="reports/Weekly_Reward_Report_V2_2026-08-31.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Weekly_Reward_Report_V2_2026-08-31.pdf" download class="btn btn-download">Download</a>
+                    <button onclick="decryptAndOpen('reports/rewards_student/Weekly_Reward_Report_V2_2026-08-31.enc', 'Weekly_Reward_Report_V2_2026-08-31.pdf', 'student')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/rewards_student/Weekly_Reward_Report_V2_2026-08-31.enc', 'Weekly_Reward_Report_V2_2026-08-31.pdf', 'student')" class="btn btn-download">Download</button>
                 </div>
             </div>
             </div>
+        </div>
     </div>
 
-    <!-- 3. Parent Portal (Password Protected) -->
+    <!-- 2. PARENT PORTAL -->
     <div id="parent" class="tab-content">
         <div id="parent-auth" class="auth-box">
-            <h3>🔒 Parent Portal Access</h3>
-            <p style="font-size: 13px; color: var(--text-light);">Enter the parent access password to view executive productivity reports:</p>
-            <input type="password" id="parent-password" placeholder="Enter Parent Password" onkeydown="if(event.key==='Enter') verifyAccess('parent')">
+            <h3>🔒 Parent Portal Gateway</h3>
+            <p style="font-size: 13px; color: var(--text-light);">Enter the parent password to decrypt executive productivity and academic reviews:</p>
+            <input type="password" id="parent-password" placeholder="Enter Parent Password" onkeydown="if(event.key==='Enter') unlockRole('parent')">
             <br/>
-            <button class="auth-btn" onclick="verifyAccess('parent')">Unlock Dashboard</button>
-            <div id="parent-error" class="error-msg">Incorrect password. Please try again.</div>
+            <button class="auth-btn" onclick="unlockRole('parent')">Unlock Parent Portal</button>
+            <div id="parent-error" class="error-msg">Incorrect parent password.</div>
         </div>
 
         <div id="parent-data" style="display:none;">
-            <button class="logout-btn" onclick="lockAccess('parent')">🔒 Lock Section</button>
+            <button class="logout-btn" onclick="lockRole('parent')">🔒 Lock Section</button>
             <h2>📊 Executive Productivity Reports</h2>
-            <p>Detailed application usage metrics, context-switching anomalies, and habit trends:</p>
+            <p>Detailed application usage metrics, context-switching anomalies, and focus trends:</p>
             <div class="report-grid">
             <div class="card">
                 <div class="card-date">Wednesday, September 02, 2026</div>
                 <div class="card-title">Productivity_Report_2026-09-02.pdf</div>
                 <div class="card-actions">
-                    <a href="reports/Productivity_Report_2026-09-02.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Productivity_Report_2026-09-02.pdf" download class="btn btn-download">Download</a>
+                    <button onclick="decryptAndOpen('reports/parent/Productivity_Report_2026-09-02.enc', 'Productivity_Report_2026-09-02.pdf', 'parent')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/parent/Productivity_Report_2026-09-02.enc', 'Productivity_Report_2026-09-02.pdf', 'parent')" class="btn btn-download">Download</button>
                 </div>
             </div>
             
@@ -279,8 +299,8 @@
                 <div class="card-date">Tuesday, September 01, 2026</div>
                 <div class="card-title">Productivity_Report_2026-09-01.pdf</div>
                 <div class="card-actions">
-                    <a href="reports/Productivity_Report_2026-09-01.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Productivity_Report_2026-09-01.pdf" download class="btn btn-download">Download</a>
+                    <button onclick="decryptAndOpen('reports/parent/Productivity_Report_2026-09-01.enc', 'Productivity_Report_2026-09-01.pdf', 'parent')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/parent/Productivity_Report_2026-09-01.enc', 'Productivity_Report_2026-09-01.pdf', 'parent')" class="btn btn-download">Download</button>
                 </div>
             </div>
             
@@ -288,8 +308,8 @@
                 <div class="card-date">Monday, August 31, 2026</div>
                 <div class="card-title">Productivity_Report_2026-08-31.pdf</div>
                 <div class="card-actions">
-                    <a href="reports/Productivity_Report_2026-08-31.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Productivity_Report_2026-08-31.pdf" download class="btn btn-download">Download</a>
+                    <button onclick="decryptAndOpen('reports/parent/Productivity_Report_2026-08-31.enc', 'Productivity_Report_2026-08-31.pdf', 'parent')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/parent/Productivity_Report_2026-08-31.enc', 'Productivity_Report_2026-08-31.pdf', 'parent')" class="btn btn-download">Download</button>
                 </div>
             </div>
             
@@ -297,8 +317,8 @@
                 <div class="card-date">Saturday, August 29, 2026</div>
                 <div class="card-title">Productivity_Report_2026-08-29.pdf</div>
                 <div class="card-actions">
-                    <a href="reports/Productivity_Report_2026-08-29.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Productivity_Report_2026-08-29.pdf" download class="btn btn-download">Download</a>
+                    <button onclick="decryptAndOpen('reports/parent/Productivity_Report_2026-08-29.enc', 'Productivity_Report_2026-08-29.pdf', 'parent')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/parent/Productivity_Report_2026-08-29.enc', 'Productivity_Report_2026-08-29.pdf', 'parent')" class="btn btn-download">Download</button>
                 </div>
             </div>
             
@@ -306,34 +326,56 @@
                 <div class="card-date">Friday, August 28, 2026</div>
                 <div class="card-title">Productivity_Report_2026-08-28.pdf</div>
                 <div class="card-actions">
-                    <a href="reports/Productivity_Report_2026-08-28.pdf" target="_blank" class="btn btn-view">View PDF</a>
-                    <a href="reports/Productivity_Report_2026-08-28.pdf" download class="btn btn-download">Download</a>
+                    <button onclick="decryptAndOpen('reports/parent/Productivity_Report_2026-08-28.enc', 'Productivity_Report_2026-08-28.pdf', 'parent')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/parent/Productivity_Report_2026-08-28.enc', 'Productivity_Report_2026-08-28.pdf', 'parent')" class="btn btn-download">Download</button>
+                </div>
+            </div>
+            </div>
+
+            <h2 style="margin-top: 36px;">🏆 Weekly Reward Evaluations</h2>
+            <p>Comprehensive 3-pillar audit reports and weekend reward passes:</p>
+            <div class="report-grid">
+            <div class="card">
+                <div class="card-date">Thursday, September 03, 2026</div>
+                <div class="card-title">Weekly_Reward_Report_V2_2026-09-03.pdf</div>
+                <div class="card-actions">
+                    <button onclick="decryptAndOpen('reports/rewards_parent/Weekly_Reward_Report_V2_2026-09-03.enc', 'Weekly_Reward_Report_V2_2026-09-03.pdf', 'parent')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/rewards_parent/Weekly_Reward_Report_V2_2026-09-03.enc', 'Weekly_Reward_Report_V2_2026-09-03.pdf', 'parent')" class="btn btn-download">Download</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-date">Monday, August 31, 2026</div>
+                <div class="card-title">Weekly_Reward_Report_V2_2026-08-31.pdf</div>
+                <div class="card-actions">
+                    <button onclick="decryptAndOpen('reports/rewards_parent/Weekly_Reward_Report_V2_2026-08-31.enc', 'Weekly_Reward_Report_V2_2026-08-31.pdf', 'parent')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/rewards_parent/Weekly_Reward_Report_V2_2026-08-31.enc', 'Weekly_Reward_Report_V2_2026-08-31.pdf', 'parent')" class="btn btn-download">Download</button>
                 </div>
             </div>
             </div>
         </div>
     </div>
 
-    <!-- 4. Administrator Logs (Password Protected) -->
+    <!-- 3. ADMINISTRATOR CONSOLE -->
     <div id="admin" class="tab-content">
         <div id="admin-auth" class="auth-box">
             <h3>🔒 Administrator Console</h3>
-            <p style="font-size: 13px; color: var(--text-light);">Enter the administrator password to view job health and run logs:</p>
-            <input type="password" id="admin-password" placeholder="Enter Admin Password" onkeydown="if(event.key==='Enter') verifyAccess('admin')">
+            <p style="font-size: 13px; color: var(--text-light);">Enter master admin password to inspect execution logs, errors, and system health:</p>
+            <input type="password" id="admin-password" placeholder="Enter Admin Password" onkeydown="if(event.key==='Enter') unlockAdmin()">
             <br/>
-            <button class="auth-btn" onclick="verifyAccess('admin')">Unlock Admin Audit</button>
-            <div id="admin-error" class="error-msg">Incorrect password. Please try again.</div>
+            <button class="auth-btn" onclick="unlockAdmin()">Unlock Admin Diagnostics</button>
+            <div id="admin-error" class="error-msg">Incorrect admin password.</div>
         </div>
 
         <div id="admin-data" style="display:none;">
-            <button class="logout-btn" onclick="lockAccess('admin')">🔒 Lock Section</button>
+            <button class="logout-btn" onclick="lockRole('admin')">🔒 Lock Console</button>
             <h2>⚙️ 7-Day Pipeline Health Audit</h2>
-            <p>Verification matrix of daily reports and submitted logs:</p>
+            <p>Status of daily Kid/Parent PDFs and feedback submissions across the trailing week:</p>
             <table class="table">
                 <thead>
                     <tr>
                         <th>Date</th>
-                        <th>Kid Quest PDF</th>
+                        <th>Kid PDF</th>
                         <th>Executive PDF</th>
                         <th>Feedback Logs</th>
                     </tr>
@@ -349,22 +391,22 @@
         
         <tr>
             <td><b>2026-09-02</b> (Wednesday)</td>
-            <td><span class="badge badge-success">Available</span></td>
-            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">OK</span></td>
+            <td><span class="badge badge-success">OK</span></td>
             <td><span class="badge badge-success">Logged</span></td>
         </tr>
         
         <tr>
             <td><b>2026-09-01</b> (Tuesday)</td>
-            <td><span class="badge badge-success">Available</span></td>
-            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">OK</span></td>
+            <td><span class="badge badge-success">OK</span></td>
             <td><span class="badge badge-success">Logged</span></td>
         </tr>
         
         <tr>
             <td><b>2026-08-31</b> (Monday)</td>
-            <td><span class="badge badge-success">Available</span></td>
-            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">OK</span></td>
+            <td><span class="badge badge-success">OK</span></td>
             <td><span class="badge badge-success">Logged</span></td>
         </tr>
         
@@ -377,43 +419,59 @@
         
         <tr>
             <td><b>2026-08-29</b> (Saturday)</td>
-            <td><span class="badge badge-success">Available</span></td>
-            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">OK</span></td>
+            <td><span class="badge badge-success">OK</span></td>
             <td><span class="badge badge-success">Logged</span></td>
         </tr>
         
         <tr>
             <td><b>2026-08-28</b> (Friday)</td>
-            <td><span class="badge badge-success">Available</span></td>
-            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">OK</span></td>
+            <td><span class="badge badge-success">OK</span></td>
             <td><span class="badge badge-success">Logged</span></td>
         </tr>
         
         <tr>
             <td><b>2026-08-27</b> (Thursday)</td>
-            <td><span class="badge badge-success">Available</span></td>
+            <td><span class="badge badge-success">OK</span></td>
             <td><span class="badge badge-danger">Missing</span></td>
             <td><span class="badge badge-success">Logged</span></td>
         </tr>
         
                 </tbody>
             </table>
+
+            <h2>🛠️ Live Job Logs & Error Diagnostics</h2>
+            <p>Decrypted run logs from recent GitHub Action executions:</p>
+            <div id="admin-logs-container">
+                <p class="empty-text">Loading diagnostics...</p>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    // SHA-256 Hashes injected at build time
     const HASHES = {
+        student: "8d4a0ea7b5f90e9c45e562596a8da02a87131b77a76f5eea4b350f9c3ec39fde",
         parent: "1c3f70129714ab9ddb509bc4edb3c2166b4e01bf0e2dceaaf9c6a69b92525935",
         admin: "861b3c167d30e87c831b461d37aded9f6405d6dfea9d312697487f8032921b06"
     };
 
-    async function computeSHA256(text) {
+    const CRYPTO_KEYS = {
+        student: null,
+        parent: null,
+        admin: null
+    };
+
+    async function sha256(text) {
         const buffer = new TextEncoder().encode(text.trim());
         const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+        return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    async function deriveAESKey(password) {
+        const rawHash = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(password.trim()));
+        return crypto.subtle.importKey("raw", rawHash, {"name": "AES-CBC"}, false, ["decrypt"]);
     }
 
     function switchTab(evt, tabId) {
@@ -421,46 +479,144 @@
         document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         evt.currentTarget.classList.add('active');
-
-        // Check active session status on tab switch
-        if (tabId === 'parent' && sessionStorage.getItem('kudoz_auth_parent') === 'true') {
-            showProtected('parent');
-        }
-        if (tabId === 'admin' && sessionStorage.getItem('kudoz_auth_admin') === 'true') {
-            showProtected('admin');
-        }
     }
 
-    async function verifyAccess(role) {
+    async function unlockRole(role) {
         const input = document.getElementById(role + '-password');
-        const error = document.getElementById(role + '-error');
-        const hash = await computeSHA256(input.value);
+        const err = document.getElementById(role + '-error');
+        const hash = await sha256(input.value);
 
         if (hash === HASHES[role]) {
-            sessionStorage.setItem('kudoz_auth_' + role, 'true');
-            error.style.display = 'none';
+            CRYPTO_KEYS[role] = await deriveAESKey(input.value);
+            sessionStorage.setItem('kudoz_' + role + '_pass', input.value);
+            err.style.display = 'none';
             input.value = '';
-            showProtected(role);
+            document.getElementById(role + '-auth').style.display = 'none';
+            document.getElementById(role + '-data').style.display = 'block';
         } else {
-            error.style.display = 'block';
+            err.style.display = 'block';
         }
     }
 
-    function showProtected(role) {
-        document.getElementById(role + '-auth').style.display = 'none';
-        document.getElementById(role + '-data').style.display = 'block';
+    async function unlockAdmin() {
+        const input = document.getElementById('admin-password');
+        const err = document.getElementById('admin-error');
+        const hash = await sha256(input.value);
+
+        if (hash === HASHES.admin) {
+            CRYPTO_KEYS.admin = await deriveAESKey(input.value);
+            sessionStorage.setItem('kudoz_admin_pass', input.value);
+            err.style.display = 'none';
+            input.value = '';
+            document.getElementById('admin-auth').style.display = 'none';
+            document.getElementById('admin-data').style.display = 'block';
+            await loadAdminDiagnostics();
+        } else {
+            err.style.display = 'block';
+        }
     }
 
-    function lockAccess(role) {
-        sessionStorage.removeItem('kudoz_auth_' + role);
+    function lockRole(role) {
+        CRYPTO_KEYS[role] = null;
+        sessionStorage.removeItem('kudoz_' + role + '_pass');
         document.getElementById(role + '-data').style.display = 'none';
         document.getElementById(role + '-auth').style.display = 'block';
     }
 
-    // Check pre-existing sessions on page load
-    window.addEventListener('DOMContentLoaded', () => {
-        if (sessionStorage.getItem('kudoz_auth_parent') === 'true') showProtected('parent');
-        if (sessionStorage.getItem('kudoz_auth_admin') === 'true') showProtected('admin');
+    async function fetchAndDecryptBlob(encUrl, role) {
+        if (!CRYPTO_KEYS[role]) {
+            alert("Please unlock this portal tab first.");
+            return null;
+        }
+        const res = await fetch(encUrl);
+        if (!res.ok) {
+            alert("File not found or network error.");
+            return null;
+        }
+        const buf = await res.arrayBuffer();
+        const iv = buf.slice(0, 16);
+        const ciphertext = buf.slice(16);
+
+        try {
+            const decrypted = await crypto.subtle.decrypt(
+                { name: "AES-CBC", iv: iv },
+                CRYPTO_KEYS[role],
+                ciphertext
+            );
+            return decrypted;
+        } catch(e) {
+            alert("Decryption failed. Password mismatch.");
+            return null;
+        }
+    }
+
+    async function decryptAndOpen(encUrl, originalName, role) {
+        const decrypted = await fetchAndDecryptBlob(encUrl, role);
+        if (decrypted) {
+            const blob = new Blob([decrypted], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            window.open(url, '_blank');
+        }
+    }
+
+    async function decryptAndDownload(encUrl, originalName, role) {
+        const decrypted = await fetchAndDecryptBlob(encUrl, role);
+        if (decrypted) {
+            const blob = new Blob([decrypted], { type: 'application/pdf' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = originalName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    }
+
+    async function loadAdminDiagnostics() {
+        try {
+            const res = await fetch('admin_diagnostics.enc');
+            if (!res.ok) {
+                document.getElementById('admin-logs-container').innerHTML = '<p class="empty-text">No diagnostic log files bundled for this run.</p>';
+                return;
+            }
+            const buf = await res.arrayBuffer();
+            const iv = buf.slice(0, 16);
+            const ciphertext = buf.slice(16);
+            const decrypted = await crypto.subtle.decrypt({ name: "AES-CBC", iv: iv }, CRYPTO_KEYS.admin, ciphertext);
+            const data = JSON.parse(new TextDecoder().decode(decrypted));
+
+            let html = '<p style="font-size: 13px; color: var(--text-light); margin-bottom: 12px;"><b>Audit Generated At:</b> ' + data.generated_at + ' | <b>Synced Feedbacks:</b> ' + data.raw_feedbacks_count + ' | <b>Archived PDFs:</b> ' + data.raw_reports_count + '</p>';
+            if (data.logs && data.logs.length > 0) {
+                data.logs.forEach(log => {
+                    html += '<div style="font-size: 12px; font-weight: bold; margin-bottom: 4px;">📄 ' + log.file + ' (' + log.timestamp + ')</div>';
+                    html += '<div class="log-terminal">' + log.content.replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</div>';
+                });
+            } else {
+                html += '<p class="empty-text">No error or execution logs recorded.</p>';
+            }
+            document.getElementById('admin-logs-container').innerHTML = html;
+        } catch(e) {
+            document.getElementById('admin-logs-container').innerHTML = '<p style="color: #dc2626;">Failed to decrypt admin diagnostics.</p>';
+        }
+    }
+
+    // Auto re-login from session
+    window.addEventListener('DOMContentLoaded', async () => {
+        for (const role of ['student', 'parent']) {
+            const saved = sessionStorage.getItem('kudoz_' + role + '_pass');
+            if (saved && (await sha256(saved)) === HASHES[role]) {
+                CRYPTO_KEYS[role] = await deriveAESKey(saved);
+                document.getElementById(role + '-auth').style.display = 'none';
+                document.getElementById(role + '-data').style.display = 'block';
+            }
+        }
+        const adminSaved = sessionStorage.getItem('kudoz_admin_pass');
+        if (adminSaved && (await sha256(adminSaved)) === HASHES.admin) {
+            CRYPTO_KEYS.admin = await deriveAESKey(adminSaved);
+            document.getElementById('admin-auth').style.display = 'none';
+            document.getElementById('admin-data').style.display = 'block';
+            await loadAdminDiagnostics();
+        }
     });
 </script>
 </body>
