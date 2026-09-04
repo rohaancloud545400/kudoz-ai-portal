@@ -455,6 +455,15 @@
             <h2>🎮 Daily Screen Time Quests</h2>
             <div class="report-grid">
             <div class="card">
+                <div class="card-date">Friday, September 04, 2026</div>
+                <div class="card-title">Summary_For_Kids_2026-09-04.pdf</div>
+                <div class="card-actions">
+                    <button onclick="decryptAndOpen('reports/student/Summary_For_Kids_2026-09-04.enc', 'Summary_For_Kids_2026-09-04.pdf', 'student')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/student/Summary_For_Kids_2026-09-04.enc', 'Summary_For_Kids_2026-09-04.pdf', 'student')" class="btn btn-download">Download</button>
+                </div>
+            </div>
+            
+            <div class="card">
                 <div class="card-date">Thursday, September 03, 2026</div>
                 <div class="card-title">Summary_For_Kids_2026-09-03.pdf</div>
                 <div class="card-actions">
@@ -936,6 +945,15 @@
             <h2>📊 Executive Productivity Reports</h2>
             <div class="report-grid">
             <div class="card">
+                <div class="card-date">Friday, September 04, 2026</div>
+                <div class="card-title">Productivity_Report_2026-09-04.pdf</div>
+                <div class="card-actions">
+                    <button onclick="decryptAndOpen('reports/parent/Productivity_Report_2026-09-04.enc', 'Productivity_Report_2026-09-04.pdf', 'parent')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/parent/Productivity_Report_2026-09-04.enc', 'Productivity_Report_2026-09-04.pdf', 'parent')" class="btn btn-download">Download</button>
+                </div>
+            </div>
+            
+            <div class="card">
                 <div class="card-date">Thursday, September 03, 2026</div>
                 <div class="card-title">Productivity_Report_2026-09-03.pdf</div>
                 <div class="card-actions">
@@ -1039,6 +1057,13 @@
                 <tbody>
                     
         <tr>
+            <td><b>2026-09-04</b> (Friday)</td>
+            <td><span class="badge badge-success">OK</span></td>
+            <td><span class="badge badge-success">OK</span></td>
+            <td><span class="badge badge-success">Logged</span></td>
+        </tr>
+        
+        <tr>
             <td><b>2026-09-03</b> (Thursday)</td>
             <td><span class="badge badge-success">OK</span></td>
             <td><span class="badge badge-success">OK</span></td>
@@ -1087,13 +1112,6 @@
             <td><span class="badge badge-success">Logged</span></td>
         </tr>
         
-        <tr>
-            <td><b>2026-08-27</b> (Thursday)</td>
-            <td><span class="badge badge-success">OK</span></td>
-            <td><span class="badge badge-danger">Missing</span></td>
-            <td><span class="badge badge-success">Logged</span></td>
-        </tr>
-        
                 </tbody>
             </table>
 
@@ -1115,8 +1133,8 @@
     };
 
     const ENC_TOKENS = {
-        student: "17869b0d48d176e47d8038e1defbe68dd7f1a225169c11f596a997d585294828e88a1cd0b905dac752d7d60ebabb70e2124bcb50943d758277f60394aa2aed011a1ffadce97b46d5980c44f352803e0f2a06c189ea0be3fab3c3f3a1fbebe4e72318bd8f280600acf955c35f110a927f",
-        parent: "0887ea3fccac4635e0b37fbdf591abcc3e03ee788550faacf146b114cf791d588119c11d62c8e35b1dad9776c13ca205653f1be9d58bf6371707a45d0a89fed5e97ef919fb2c2a616787fb753f155e15ea6d45d5957dc4ab5c26fe0005ea10662e1a70bdec82d5b881874e52baf9187a"
+        student: "7d8672775767f57a9284c4ff9f0c32cdf61b7a2f9df48eddeefe58c1da0002c6ce42a9bf80b6017b1f27eaf652986854c16d262d8ddf3e000445704d225f4a50b73ef59ca94a5d69d2a21c3dbb7403fd425449b534a35e54d82fa1eca9a90f7da10f487cf6abc8649084c0e5d616994d",
+        parent: "e00739e3c08a148b993a05b9b54ba5085b24ae9f8f7657d6cebc04c57e40ae4983431fd2e2c9e42271f67cfa6e1b714665ef9c743b452df9ca2bd535160fc53598eec29f1102866b8aa1d81826b29331e1877e256dba33f67071f103747f847b3bb2ae19e250ffc4307f760167d56446"
     };
 
     const CRYPTO_KEYS = {
