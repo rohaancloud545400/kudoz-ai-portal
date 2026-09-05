@@ -530,6 +530,15 @@
             <h2 style="margin-top: 36px;">🏆 Weekly Reward Reports & Certificates</h2>
             <div class="report-grid">
             <div class="card">
+                <div class="card-date">Saturday, September 05, 2026</div>
+                <div class="card-title">Weekly_Reward_Report_V2_2026-09-05.pdf</div>
+                <div class="card-actions">
+                    <button onclick="decryptAndOpen('reports/rewards_student/Weekly_Reward_Report_V2_2026-09-05.enc', 'Weekly_Reward_Report_V2_2026-09-05.pdf', 'student')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/rewards_student/Weekly_Reward_Report_V2_2026-09-05.enc', 'Weekly_Reward_Report_V2_2026-09-05.pdf', 'student')" class="btn btn-download">Download</button>
+                </div>
+            </div>
+            
+            <div class="card">
                 <div class="card-date">Thursday, September 03, 2026</div>
                 <div class="card-title">Weekly_Reward_Report_V2_2026-09-03.pdf</div>
                 <div class="card-actions">
@@ -1011,6 +1020,15 @@
             <h2 style="margin-top: 36px;">🏆 Weekly Reward Evaluations</h2>
             <div class="report-grid">
             <div class="card">
+                <div class="card-date">Saturday, September 05, 2026</div>
+                <div class="card-title">Weekly_Reward_Report_V2_2026-09-05.pdf</div>
+                <div class="card-actions">
+                    <button onclick="decryptAndOpen('reports/rewards_parent/Weekly_Reward_Report_V2_2026-09-05.enc', 'Weekly_Reward_Report_V2_2026-09-05.pdf', 'parent')" class="btn btn-view">Decrypt & View</button>
+                    <button onclick="decryptAndDownload('reports/rewards_parent/Weekly_Reward_Report_V2_2026-09-05.enc', 'Weekly_Reward_Report_V2_2026-09-05.pdf', 'parent')" class="btn btn-download">Download</button>
+                </div>
+            </div>
+            
+            <div class="card">
                 <div class="card-date">Thursday, September 03, 2026</div>
                 <div class="card-title">Weekly_Reward_Report_V2_2026-09-03.pdf</div>
                 <div class="card-actions">
@@ -1056,6 +1074,13 @@
                 </thead>
                 <tbody>
                     
+        <tr>
+            <td><b>2026-09-05</b> (Saturday)</td>
+            <td><span class="badge badge-danger">Missing</span></td>
+            <td><span class="badge badge-danger">Missing</span></td>
+            <td><span class="badge badge-neutral">None</span></td>
+        </tr>
+        
         <tr>
             <td><b>2026-09-04</b> (Friday)</td>
             <td><span class="badge badge-success">OK</span></td>
@@ -1105,13 +1130,6 @@
             <td><span class="badge badge-success">Logged</span></td>
         </tr>
         
-        <tr>
-            <td><b>2026-08-28</b> (Friday)</td>
-            <td><span class="badge badge-success">OK</span></td>
-            <td><span class="badge badge-success">OK</span></td>
-            <td><span class="badge badge-success">Logged</span></td>
-        </tr>
-        
                 </tbody>
             </table>
 
@@ -1133,8 +1151,8 @@
     };
 
     const ENC_TOKENS = {
-        student: "7d8672775767f57a9284c4ff9f0c32cdf61b7a2f9df48eddeefe58c1da0002c6ce42a9bf80b6017b1f27eaf652986854c16d262d8ddf3e000445704d225f4a50b73ef59ca94a5d69d2a21c3dbb7403fd425449b534a35e54d82fa1eca9a90f7da10f487cf6abc8649084c0e5d616994d",
-        parent: "e00739e3c08a148b993a05b9b54ba5085b24ae9f8f7657d6cebc04c57e40ae4983431fd2e2c9e42271f67cfa6e1b714665ef9c743b452df9ca2bd535160fc53598eec29f1102866b8aa1d81826b29331e1877e256dba33f67071f103747f847b3bb2ae19e250ffc4307f760167d56446"
+        student: "7b2d0c4ad11c3917858299d4ba8a60e5ddf08dc23fc5cc0139282e527a05d6afb31ece73acc6ba02981adab3229bebd5dbd7768773bf23c7852175a8fd76324c97dcd9f05d21c24931d9f5bcae30a6f219f54ff9d74d15f11d43fdbf744a85f8ccb87e76406d8289bb7276a4d0d144bd",
+        parent: "075a046157bd74bf71a5205cf4918e813c0558a319ae9f2341895d01596a58a728aa7d97dda75e5021754e1fd9df1b001e492d849c16deffe79d0e7516731f2ec5f18de195af94a05ddde143354ea1482812170ec0f59e76d3e8f807e959fddec20cf9a76f473faf322952a351905422"
     };
 
     const CRYPTO_KEYS = {
